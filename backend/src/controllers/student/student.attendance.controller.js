@@ -5,12 +5,12 @@ import {QueryTypes, Sequelize, json} from "sequelize"
 
 const studentAttendanceSummary = asyncHandler(async(req,res)=>{
     const {studentClass,studentId} = req.body
-    const p = await getSubjectList(studentClass)
+    const subjectList = await getSubjectList(studentClass)
     let attList = []
     let total=0;
     let present =0;
-    for(let i=0;i<p.length;i++){
-        let subjectId = p[i].sub_id
+    for(let i=0;i<subjectList.length;i++){
+        let subjectId = subjectList[i].sub_id
         let tot = await getTotalCount(studentId,subjectId);
         let pre = await getPresentCount(studentId,subjectId);
         total = total+tot
@@ -58,6 +58,5 @@ const getSubjectList = async(studentClass)=>{
 
 export {
     studentAttendanceSummary,
-    getSubjectList,
-    getTotalCount
+    getSubjectList
 }

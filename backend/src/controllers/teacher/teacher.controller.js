@@ -43,6 +43,7 @@ const updateTeacherPassword = asyncHandler(async(req,res)=>{
     )
 })
 
+
 export {
     loginTeacher,
     updateTeacherPassword
