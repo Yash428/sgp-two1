@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
-import axios from "axios"
+import {Button, Input} from "./components"
 import './App.css'
+import PrintAllStudents from './components/PrintAllStudents'
+import AllStudentPassword from './components/AllStudentPassword'
+import { TableOne } from './components/TableOne'
+import Login from './pages/Login'
 
 function App() {
   const [studentId,setId] = useState('')
@@ -28,13 +32,15 @@ function App() {
 
   return (
     <>
-      <h1 className=' text-orange-500 bg-orange-200 text-center text-5xl '>Hey Sgp2</h1>
-      <form onSubmit={handleForm}>
-        <input type='text' name='id' onChange={e=>setId(e.target.value)} placeholder='Add id' /><br />
-        <input type='password' name='password' onChange={e=>setPassword(e.target.value)} placeholder='add password' /><br />
-        <input type='submit' value="Login" />
-      </form>
-      <div>{jsondata.student_id}</div>
+      {/* <form onSubmit={handleForm} className='w-half '>
+        <Input label="Add id: " onChange={e=>setId(e.target.value)}/>
+        <Input label="Add password: " onChange={e=>setPassword(e.target.value)} type="password"/>
+        {/* <input type='submit' value="Login" /> */}
+        {/* <Button type='submit'>Submit</Button>
+      </form> 
+      <div>{jsondata.student_id}</div> */}
+      {/* <AllStudentPassword /> */}
+      <Login />
     </>
   )
 }

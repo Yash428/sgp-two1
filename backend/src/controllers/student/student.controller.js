@@ -3,6 +3,7 @@ import {asyncHandler} from "../../utils/asyncHandler.js"
 import { connectDb } from "../../db/index.js"
 import {QueryTypes, Sequelize} from "sequelize"
 
+
 const loginStudent = asyncHandler(async (req,res)=>{
     const {studentId,studentPassword} = req.body
     console.log(studentId,studentPassword)
@@ -69,10 +70,6 @@ const studentLogout = asyncHandler(async(req,res)=>{
 
 })
 
-
-// const updateStudentPasswordWithoutOld = asyncHandler(async(req,res)=>{
-
-// })
 export {
     loginStudent,
     updateStudentPasswordWithOld,
