@@ -12,7 +12,7 @@ export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
         const decodedToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
         const user = Student.findOne({where: {student_id:decodedToken?.student_id}})
         if(!user){
-            throw new ApiError(401,"Invalid access token")
+            throw new ApiError(401,"Invalid user")
         }
         req.user = user
         next()

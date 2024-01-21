@@ -20,7 +20,7 @@ function AllStudentPassword() {
         let userData = {
             teacherClass
         }
-        fetch("/api/v1/teachers/students/password",{
+        fetch("y/teachers/students/password",{
             method: 'post',
             headers: {
                 "Content-Type": "application/json"
