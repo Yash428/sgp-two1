@@ -5,12 +5,15 @@ import axios from "axios"
 import authSlice, {logout as authLogout} from "../store/authSlice"
 import {useDispatch, useSelector} from "react-redux"
 import Logout from '../components/Logout'
+import TimeTable from '../components/student/TimeTable'
+import AttendanceSummary from '../components/student/AttendanceSummary'
+
 
 function PageOne() {
     const [data,setData] = useState([])
     const dispatch = useDispatch()
-    const selector = useSelector((state)=>state.auth.studentData)
-    console.log(selector);
+    const selector = useSelector((state)=>state.auth.data)
+    //console.log(selector);
     const formHandler = async (e)=>{
         e.preventDefault()
         const studentClass = selector.student_class
@@ -38,7 +41,7 @@ function PageOne() {
             </tr>
         )
     })
-    
+    const headers = ['time','sub_id','teacher_name']
     return (
         <>
         <div className='text-3xl'>Successfull</div>
@@ -47,17 +50,14 @@ function PageOne() {
             <Button type='submit'>Find</Button>
         </form>
 
-
-        <table>
-            <thead>
-                <tr>
-                    <td>time{  }</td>
-                    <td>sub_id{  }</td>
-                    <td>teacher_name</td>
-                </tr>
+        <TimeTable />
+        {/* <table>
+            <thead className="bg-gray-50">
+                {headers}
             </thead>
             <tbody>{printIt}</tbody>
-        </table>
+        </table> */}
+        <AttendanceSummary />
         <Logout />
         </>
         

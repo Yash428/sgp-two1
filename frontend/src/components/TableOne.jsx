@@ -1,25 +1,8 @@
 import React, { useState } from 'react'
 import Input from './Input'
 import Button from './Button'
-
-const people = [
-    {
-        name: 'John Doe',
-        title: 'Front-end Developer',
-        department: 'Engineering',
-        email: 'john@devui.com',
-        role: 'Developer'
-    },
-    {
-        name: 'Jane Doe',
-        title: 'Back-end Developer',
-        department: 'Engineering',
-        email: 'jane@devui.com',
-        role: 'CTO'
-    },
-]
-
-
+import { LogOut } from 'lucide-react'
+import Logout from './Logout'
 
 export function TableOne() {
     const [teacherClass,setTeacherClass] = useState('')
@@ -40,7 +23,7 @@ export function TableOne() {
         let userData = {
             teacherClass
         }
-        fetch("/api/v1/teachers/students/password",{
+        fetch("http://localhost:8002/api/v1/teachers/students/password",{
             method: 'post',
             headers: {
                 "Content-Type": "application/json"
@@ -142,6 +125,7 @@ export function TableOne() {
                 </div>
                 </div>
             </section>
+            <Logout />
         </>
     )
 }

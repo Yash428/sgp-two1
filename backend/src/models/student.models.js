@@ -1,6 +1,5 @@
 import {DataTypes, Sequelize} from "sequelize"
 import { connectDb } from "../db/index.js"
-import jwt from "jsonwebtoken"
 const sequelize = await connectDb()
 
 const Student = sequelize.define('student',{
@@ -22,7 +21,7 @@ const Student = sequelize.define('student',{
         allowNull: false
     },
     student_address:{
-        type:DataTypes.STRING,
+        type:DataTypes.TEXT,
         allowNull: false
     },
     student_gender:{
@@ -74,6 +73,11 @@ const Student = sequelize.define('student',{
     },
     refresh_token:{
         type:DataTypes.STRING,
+    },
+    role:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        defaultValue:"student"
     }
 },{
     timestamps:false,
@@ -93,7 +97,6 @@ const Student = sequelize.define('student',{
 //         }
 //     )
 // }
-
 // generateRefreshToken = function(){
 //     return jwt.sign(
 //         {

@@ -7,20 +7,19 @@ import  jwt from "jsonwebtoken"
 
 const generateAccessAndRefreshToken = async(student_id)=>{
     try {
-        console.log(student_id);
+        // console.log(student_id);
         const student = await Student.findOne({where: {student_id}})
-        console.log("pppp"+student);
+        // console.log("pppp"+student);
         const accessToken = jwt.sign({student_id:student.student_id},
             process.env.ACCESS_TOKEN_SECRET,
             {
                 expiresIn:process.env.ACCESS_TOKEN_EXPIRY
             }
         )
-        console.log(accessToken);
+        // console.log(accessToken);
         const refreshToken = jwt.sign(
             {
                 student_id: student.student_id,
-                
             },
             process.env.REFRESH_TOKEN_SECRET,
             {
@@ -43,6 +42,10 @@ const loginStudent = asyncHandler(async (req,res)=>{
         replacements: [studentId],
         type: QueryTypes.SELECT
     })
+    console.log(result.length);
+    if(result.length===0){
+        throw new ApiError(400,"Not found")
+    }
     console.log(result)
     if(studentPassword!==result[0].student_password){
         throw new ApiError(400,"Password is incorrect")
@@ -135,9 +138,12 @@ const updateStudentProfileImage = asyncHandler(async(req,res)=>{
 
 // })
 const studentLogout = asyncHandler(async(req,res)=>{
-    Student.update({refresh_token: undefined},{where: {student_id: req.student_id}}).then(result=>console.log("done"))
-    .catch(error=>console.log("error"+error))
-    
+    // console.log("huu  hh");
+    // console.log(req.student.student_id);
+    const student = await Student.findOne({where: {student_id:req.student.student_id}})
+    student.refresh_token = null
+    console.log(student);
+    await student.save({validate: false})
     console.log("hiiii");
     const options = {
         httpOnly:true,

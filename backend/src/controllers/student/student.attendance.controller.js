@@ -18,9 +18,9 @@ const studentAttendanceSummary = asyncHandler(async(req,res)=>{
         let subjectWiseAttendance = (tot===0)?0:Math.round((pre*100)/tot)
         attList.push({subjectId,tot,pre,subjectWiseAttendance})
     }
-    let e = "Overall"
+    let subjectId = "Overall"
     let overallAttendance = (total===0)?0:Math.round((present*100)/total)
-    attList.push({e,total,present,overallAttendance})
+    attList.push({subjectId,tot:total,pre:present,overallAttendance})
     return res
     .status(200)
     .json(

@@ -5,56 +5,59 @@ import './index.css'
 import{Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from "react-router-dom"
 import Login from './pages/Login.jsx'
 import PageOne from './pages/PageOne.jsx'
-import PrintAllStudents from './components/PrintAllStudents.jsx'
+// import PrintAllStudents from './components/PrintAllStudents.jsx'
 import { Provider } from 'react-redux'
-import { store } from './store/store.js'
+import { persistedStore, store } from './store/store.js'
 import  {Auth} from './components'
 import PageTwo from './pages/PageTwo.jsx'
+import PageThree from './pages/PageThree.jsx'
+import { TableOne } from './components/TableOne.jsx'
+import { PersistGate } from 'redux-persist/integration/react'
+import persistStore from 'redux-persist/es/persistStore'
 
-const router = createBrowserRouter(
-
-  [{
-    path: '/',
-    element: <App />,
-    children: [
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: (
+      <Auth authentication>
+        <App />
+      </Auth>
+      // <App />
+    ),
+    children :[
       {
-        path: '/',
-        element:(
+        path: "",
+        element: (
+        <Auth authentication={false}>
+          <Login />
+        </Auth>)
+
+      },
+      {
+        path: 'student',
+        element: (
           <Auth authentication>
-            {" "}
             <PageOne />
           </Auth>
         )
       },
       {
-        path:  '/login',
-        element: (
-          <Auth authentication= {false}>
-            <Login />
-          </Auth>
-        )
-      },
-      {
-        path: '/dest',
+        path: 'teacher',
         element:(
-          <Auth authentication>
-            {" "}
-            <PrintAllStudents />
+          <Auth authentication >
+            <TableOne />
           </Auth>
+          // <TableOne />
         )
-      },
-      {
-        path: '/loggedOut',
-        element:<PageTwo />
       }
     ]
-  }]
-)
+  }
+])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <PersistGate persistor={persistedStore}>
       <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>,
+    </PersistGate>
+  </Provider>
 )
