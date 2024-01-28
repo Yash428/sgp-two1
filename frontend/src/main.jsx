@@ -6,7 +6,7 @@ import{Route, RouterProvider, createBrowserRouter, createRoutesFromElements} fro
 import Login from './pages/Login.jsx'
 import PageOne from './pages/PageOne.jsx'
 // import PrintAllStudents from './components/PrintAllStudents.jsx'
-import { Provider } from 'react-redux'
+import { Provider, useSelector } from 'react-redux'
 import { persistedStore, store } from './store/store.js'
 import  {Auth} from './components'
 import PageTwo from './pages/PageTwo.jsx'
@@ -14,6 +14,13 @@ import PageThree from './pages/PageThree.jsx'
 import { TableOne } from './components/TableOne.jsx'
 import { PersistGate } from 'redux-persist/integration/react'
 import persistStore from 'redux-persist/es/persistStore'
+import StudentDashBoard from './pages/student/studentDashBoard.jsx'
+import TeacherDashBoard from './pages/teacher/TeacherDashBoard.jsx'
+import AttendanceSummary from './components/student/AttendanceSummary.jsx'
+import TimeTable from './components/student/TimeTable.jsx'
+import SetPassword from './components/student/settings/SetPassword.jsx'
+import TeacherTimeTable from './components/teacher/TeacherTimeTable.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -28,27 +35,58 @@ const router = createBrowserRouter([
       {
         path: "",
         element: (
-        <Auth authentication={false}>
+        <Auth authentication={false} >
           <Login />
         </Auth>)
-
       },
       {
-        path: 'student',
+        path: 'student/',
         element: (
           <Auth authentication>
-            <PageOne />
+            <StudentDashBoard />
           </Auth>
-        )
+        ),
+        children: [
+          {
+            path: "",
+            element: (
+            <Auth authentication>
+              <TimeTable />
+            </Auth>)
+          },
+          {
+            path: "attendance/",
+            element: (
+            <Auth authentication>
+              <AttendanceSummary />
+            </Auth>)
+          },
+          {
+            path: 'settings',
+            element: (
+              <Auth authentication>
+                <SetPassword />
+              </Auth>
+            )
+          }
+        ]
       },
       {
-        path: 'teacher',
+        path: 'teacher/',
         element:(
           <Auth authentication >
-            <TableOne />
-          </Auth>
-          // <TableOne />
-        )
+            <TeacherDashBoard />
+          </Auth> 
+        ),
+        children: [
+          {
+            path: "",
+            element: (
+            <Auth authentication>
+              <TeacherTimeTable />
+            </Auth>)
+          }
+        ]
       }
     ]
   }

@@ -3,6 +3,7 @@ import Input from './Input'
 import Button from './Button'
 import { LogOut } from 'lucide-react'
 import Logout from './Logout'
+import TimeTable from './teacher/TeacherTimeTable'
 
 export function TableOne() {
     const [teacherClass,setTeacherClass] = useState('')
@@ -39,15 +40,7 @@ export function TableOne() {
     }
     return (
         <>
-            <section className="mx-auto w-full max-w-7xl px-4 py-4">
-                {/* <div>
-                    {/* <button
-                    type="button"
-                    className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                    >
-                    Add new employee
-                    </button> 
-                </div> */}
+            {/* <section className="mx-auto w-full max-w-7xl px-4 py-4">
                 <form onSubmit={handleForm}>
                 <Input className='w-2/3' onChange = {e=>setTeacherClass(e.target.value)} placeholder="Add Class name: " />
                 <Button type='submit'>Submit</Button>
@@ -124,7 +117,8 @@ export function TableOne() {
                     </div>
                 </div>
                 </div>
-            </section>
+            </section> */}
+            <TimeTable />
             <Logout />
         </>
     )

@@ -88,7 +88,7 @@ const updateStudentPasswordWithOld = asyncHandler(async(req,res)=>{
     })
     console.log(result);
     return res.status(200).json(
-        new ApiResponse(200,{},"Successfully")
+        new ApiResponse(200,{message:"Password changed Successfully"},"Successfully")
     )
 })
 const getCurrentUser = asyncHandler(async(req,res)=>{

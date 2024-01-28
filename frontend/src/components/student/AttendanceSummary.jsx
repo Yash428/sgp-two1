@@ -32,77 +32,75 @@ function AttendanceSummary() {
   return (
     <>
         <section className="mx-auto w-full max-w-7xl px-4 py-4">
-            <div className="mt-6 flex flex-col">
-                <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                        <div className="overflow-hidden border border-gray-200 md:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-4 py-3.5 text-center text-sm font-normal text-gray-700"
-                                        >
-                                            <span>Subject Id</span>
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-12 py-3.5 text-center text-sm font-normal text-gray-700"
-                                        >
-                                            Total
-                                        </th>
+            <div className="mt-6 flex flex-col ">
+                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div className="overflow-hidden border border-gray-200 dark:border-gray-600 md:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-500">
+                            <thead className="bg-gray-50 dark:bg-gray-700 dark:text-white">
+                                <tr className='dark:text-gray-400 text-base text-gray-700'>
+                                    <th
+                                        scope="col"
+                                        className="px-4 py-3.5 text-center font-normal"
+                                    >
+                                        <span>Subject Id</span>
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-12 py-3.5 text-center text-sm font-normal"
+                                    >
+                                        Total
+                                    </th>
 
-                                        <th
-                                            scope="col"
-                                            className="px-4 py-3.5 text-center text-sm font-normal text-gray-700"
-                                        >
-                                            Percentage
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 bg-white">
-                                    {attendanceData.map((t) => (
-                                    <tr key={t.subjectId}>
-                                        <td className="whitespace-nowrap px-4 py-4">
-                                                <div className="ml-4">
-                                                    <div className="text-sm text-center font-medium text-gray-900">{t.subjectId}</div>
-                                                </div>
-                                        </td>
-                                        <td className="whitespace-nowrap px-12 py-4">
-                                            <div className="text-sm text-center text-gray-900 ">{t.pre}/{t.tot}</div>
-                                        </td>
+                                    <th
+                                        scope="col"
+                                        className="px-4 py-3.5 text-center text-sm font-normal"
+                                    >
+                                        Percentage
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200 dark:divide-gray-500 bg-white dark:bg-gray-800">
+                                {attendanceData.map((t) => (
+                                <tr key={t.subjectId} className='dark:text-gray-400  text-gray-900'>
+                                    <td className="whitespace-nowrap px-4 py-4">
+                                            <div className="ml-4">
+                                                <div className="text-sm text-center font-medium dark:text-white">{t.subjectId}</div>
+                                            </div>
+                                    </td>
+                                    <td className="whitespace-nowrap px-12 py-4">
+                                        <div className="text-sm text-center ">{t.pre}/{t.tot}</div>
+                                    </td>
+                                    
+                                    <td className="whitespace-nowrap px-4 py-4 text-center text-sm font-medium">
+                                        {t.subjectWiseAttendance}%
+                                    </td>
+                                </tr>
+                                ))}
+                            </tbody>
+                            <tfoot className="bg-gray-50 dark:bg-gray-600">
+                                <tr>
+                                    <td
+                                        scope="col"
+                                        className="px-4 py-3.5 text-center text-lg font-bold text-gray-800 dark:text-gray-100"
+                                    >
+                                        <span>Overall Attendance:- </span>
+                                    </td>
+                                    <td
+                                        scope="col"
+                                        className="px-12 py-3.5 text-center text-sm font-normal text-gray-700 dark:text-gray-100"
+                                    >
                                         
-                                        <td className="whitespace-nowrap px-4 py-4 text-center text-sm font-medium">
-                                            {t.subjectWiseAttendance}
-                                        </td>
-                                    </tr>
-                                    ))}
-                                </tbody>
-                                <tfoot className="bg-gray-50">
-                                    <tr>
-                                        <td
-                                            scope="col"
-                                            className="px-4 py-3.5 text-center text-lg font-bold text-gray-800"
-                                        >
-                                            <span>Overall Attendance:- </span>
-                                        </td>
-                                        <td
-                                            scope="col"
-                                            className="px-12 py-3.5 text-center text-sm font-normal text-gray-700"
-                                        >
-                                            
-                                        </td>
+                                    </td>
 
-                                        <td
-                                            scope="col"
-                                            className="px-4 py-3.5 text-center text-sm font-bold text-gray-800"
-                                        >
-                                            {overAllAttendance.overallAttendance}%
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                                    <td
+                                        scope="col"
+                                        className="px-4 py-3.5 text-center text-sm font-bold text-gray-800 dark:text-gray-100"
+                                    >
+                                        {overAllAttendance.overallAttendance}%
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>

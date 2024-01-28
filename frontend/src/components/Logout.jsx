@@ -50,7 +50,7 @@ function Logout() {
     }
     return (
         <>
-            <Button onClick ={handleLogout} >Logout</Button>
+            <button onClick ={handleLogout} >Logout</button>
         </>
     )
 }
