@@ -53,6 +53,21 @@ const loginAdmin = asyncHandler(async(req,res)=>{
     )
 
 })
+const logoutAdmin = asyncHandler(async(req,res)=>{
+    const admin = await Admin.findOne({where: {admin_id: req.admin.admin_id}})
+    admin.refresh_token = null
+    await admin.save({validate: false})
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+    return res
+    .status(200)
+    .clearCookie("accessToken",options)
+    .clearCookie("refreshToken",options)
+    .json(new ApiResponse(200,{},"logged Out Successfully"))
+})
 export{
-    loginAdmin
+    loginAdmin,
+    logoutAdmin,
 }

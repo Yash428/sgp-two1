@@ -3,7 +3,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError,ApiResponse} from "../utils/index.js"
 import jwt from 'jsonwebtoken'
 import {Teacher} from "../models/teacher.models.js"
-
+import { Admin } from "../models/admin.models.js"
 export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
     try {
         // console.log(req.cookies);
@@ -39,6 +39,24 @@ export const verifyTeacherJWT = asyncHandler(async(req,_,next)=>{
             throw new ApiError(401, "invalid user")
         }
         req.teacher = teacherUser
+        next()
+    } catch (error) {
+        throw new ApiError(401,error?.message || "Invalid access token")
+    }
+})
+
+export const verfyAdminJWT = asyncHandler(async(req,_,next)=>{
+    try {
+        const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","")
+        if(!token){
+            throw new ApiError(401, "unauthorized request")
+        }
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        const adminUser = await Admin.findOne({where: {admin_id: decodedToken?.admin_id}})
+        if(!adminUser){
+            throw new ApiError(401, "invalid user")
+        }
+        req.admin = adminUser
         next()
     } catch (error) {
         throw new ApiError(401,error?.message || "Invalid access token")
