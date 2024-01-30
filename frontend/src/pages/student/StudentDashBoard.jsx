@@ -5,7 +5,7 @@ import Logout from '../../components/Logout'
 import SetPassword from '../../components/student/settings/SetPassword'
 import { useSelector } from 'react-redux'
 import Sidebar from '../../components/student/Sidebar'
-import Header from '../../components/Header'
+import Header from '../../components/student/Header'
 import { Outlet } from 'react-router-dom'
 function StudentDashBoard() {
   return (
