@@ -15,11 +15,6 @@ function Login() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    // useEffect(()=>{
-    //     const serverCookie = cookie.get('accessToken')
-    //     console.log(serverCookie);
-    // },[])
-
     const formHandler = async (e)=>{
         e.preventDefault()
         if(id.charAt(0)==='S'){
@@ -76,6 +71,35 @@ function Login() {
                     navigate('/')
                 })
                 navigate("teacher")
+            } catch (error) {
+                console.log('Login error');
+            }
+        }
+        else if(id.charAt(0)==='A' || id.charAt(0)==='a'){
+            let userData = {
+                adminId:id,
+                adminPassword:Password
+            }
+            try {
+                axios.post('http://localhost:8002/api/v1/admin/login',userData)
+                .then(result =>{
+                    console.log(result.data.data.admin);
+                    let adminData = result.data.data.admin
+                    SetCookie('accessToken',result.data.data.accessToken)
+                    if(!adminData){
+                        navigate('/')
+                    }
+                    adminData = {...adminData, role:"admin"}
+                    if(adminData){ 
+                        dispatch(authLogin(adminData))
+                        // dispatch(roleLogin("admin"))
+                    }
+                })
+                .catch((e)=>{
+                    console.log(e);
+                    navigate('/')
+                })
+                navigate("admin")
             } catch (error) {
                 console.log('Login error');
             }

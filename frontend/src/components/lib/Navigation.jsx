@@ -1,6 +1,7 @@
 import { PiStudent, PiExam, PiBank } from "react-icons/pi"
 import { SlSettings } from "react-icons/sl"
 import { HiOutlineLogout } from "react-icons/hi"
+import { CgMoreVerticalR } from "react-icons/cg";
 export const STUDENT_DASHBOARD_SIDEBAR_LINKS = [
     {
         key: "studentDashboard",
@@ -88,7 +89,7 @@ export const TEACHER_DASHBOARD_SIDEBAR_LINKS = [
         key: "more",
         label: "More",
         title: "More",
-        icon: <SlSettings className="w-6 h-6"/>,
+        icon: <CgMoreVerticalR className="w-6 h-6"/>,
         path: "/teacher/more",
     }
 ]
@@ -101,4 +102,74 @@ export const TEACHER_DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
         icon: <SlSettings className="w-6 h-6"/>,
         path: "/teacher/settings",
     }
+]
+
+export const ADMIN_DASHBOARD_SIDEBAR_LINKS = [
+    {
+        key: "adminDashboard",
+        label: "Dashboard",
+        title: "Dashboard",
+        icon: <PiStudent className="w-6 h-6"/>,
+        path: "/admin",
+    },
+    {
+        key: "teachers",
+        label: "Teachers",
+        title: "Teachers",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/teachers"
+    },
+    {
+        key: "students",
+        label: "Students",
+        title: "Students",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students"
+    },
+    {
+        key: "parents",
+        label: "Parents",
+        title: "Parents",
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/admin/parents"
+    },
+    {
+        key: "exam",
+        label: "Exam",
+        title: "Exam",
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/admin/exam"
+    },
+    {
+        key: 'course',
+        label: 'Course',
+        title: 'Course',
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/admin/course"
+    },
+    {
+        key: "accounts",
+        label: "Accounts",
+        title: "Accounts",
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/admin/accounts"
+    },
+    {
+        key: "more",
+        label: "More",
+        title: "More",
+        icon: <CgMoreVerticalR className="w-6 h-6"/>,
+        path: "/admin/more",
+    }
+]
+
+export const ADMIN_DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
+    {
+        key: "settings",
+        label: "Settings",
+        title: "Settings",
+        icon: <SlSettings className="w-6 h-6"/>,
+        path: "/admin/settings",
+    },
+    
 ]

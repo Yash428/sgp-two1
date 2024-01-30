@@ -20,6 +20,7 @@ import AttendanceSummary from './components/student/AttendanceSummary.jsx'
 import TimeTable from './components/student/TimeTable.jsx'
 import SetPassword from './components/student/settings/SetPassword.jsx'
 import TeacherTimeTable from './components/teacher/TeacherTimeTable.jsx'
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 
 
 const router = createBrowserRouter([
@@ -87,6 +88,14 @@ const router = createBrowserRouter([
             </Auth>)
           }
         ]
+      },
+      {
+        path: 'admin/',
+        element: (
+          <Auth authentication>
+            <AdminDashboard />
+          </Auth>
+        )
       }
     ]
   }
