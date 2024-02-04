@@ -4,6 +4,8 @@ import { connectDb } from "../../db/index.js"
 import {QueryTypes, Sequelize} from "sequelize"
 import {Student} from "../../models/student.models.js"
 import  jwt from "jsonwebtoken"
+import {uploadOnCloudinary, deleteFromCloudinary} from "../../utils/cloudinary.js"
+
 
 const generateAccessAndRefreshToken = async(student_id)=>{
     try {
@@ -156,9 +158,57 @@ const studentLogout = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,{},"User logged out"))
 })
 
+const addProfilePicture = asyncHandler(async(req,res)=>{
+    const profileImage = req.file?.path
+    if(!profileImage){
+        throw new ApiError(400, "No image selected")
+    }
+    const image = await uploadOnCloudinary(profileImage)
+    if(!image.url){
+        throw new ApiError(500, "Something went wrong")
+    }
+    const student = await Student.findOne({where: {student_id:req.student.student_id}})
+    student.profile_picture = image.url
+    await student.save({validate: false})
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, student,"Image Uploaded successfully"))
+})
+
+const updateProfilePicture = asyncHandler(async (req,res) => {
+    const newProfilePicture = await req.file?.path
+    if(!newProfilePicture){
+        throw new ApiError(400, "No image selected")
+    }
+    const student = await Student.findOne({where: {student_id: req.student.student_id}})
+    // console.log(student);
+    const oldPicture = student.profile_picture
+    // console.log(oldPicture);
+    const oldPictureUrl = oldPicture.split("/")
+    // console.log(oldPictureUrl);
+    let n = oldPictureUrl.length;
+    const oldPictureId = oldPictureUrl[n-1].replace(".jpg","");
+    // console.log(oldPictureId);
+    const p = await deleteFromCloudinary(oldPictureId)
+    if(p===false){
+        console.log("It's null");
+        throw new ApiError(500, "Something went wrong")
+    }
+    const image = await uploadOnCloudinary(newProfilePicture)
+    student.profile_picture = image.url
+    await student.save({validate: false})
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,student,"profile picture updated"))
+
+})
 export {
     loginStudent,
     updateStudentPasswordWithOld,
     getCurrentUser,
-    studentLogout
+    studentLogout,
+    addProfilePicture,
+    updateProfilePicture
 }

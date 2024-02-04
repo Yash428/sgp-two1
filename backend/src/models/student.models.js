@@ -78,6 +78,9 @@ const Student = sequelize.define('student',{
         type:DataTypes.STRING,
         allowNull:false,
         defaultValue:"student"
+    },
+    profile_picture:{
+        type:DataTypes.STRING
     }
 },{
     timestamps:false,

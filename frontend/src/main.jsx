@@ -21,6 +21,10 @@ import TimeTable from './components/student/TimeTable.jsx'
 import SetPassword from './components/student/settings/SetPassword.jsx'
 import TeacherTimeTable from './components/teacher/TeacherTimeTable.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import StudentPage from './pages/teacher/student/StudentPage.jsx'
+import Attendance from './components/teacher/students/Attendance.jsx'
+import StudentComponent from './components/teacher/students/StudentComponent.jsx'
+import FillAttendance from './components/teacher/students/FillAttendance.jsx'
 
 
 const router = createBrowserRouter([
@@ -86,6 +90,39 @@ const router = createBrowserRouter([
             <Auth authentication>
               <TeacherTimeTable />
             </Auth>)
+          },
+          {
+            path: "students/",
+            element: (
+              <Auth authentication>
+                <StudentPage />
+              </Auth>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                <Auth authentication>
+                  <StudentComponent />
+                </Auth>)
+              },
+              {
+                path: "attendance/",
+                element: (
+                  <Auth authentication >
+                    <Attendance />
+                  </Auth>
+                ),
+              },
+              {
+                path: "fillAttendance/:att_p_id",
+                element: (
+                  <Auth>
+                    <FillAttendance />
+                  </Auth>
+                )
+              }
+            ]
           }
         ]
       },

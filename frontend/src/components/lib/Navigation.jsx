@@ -173,3 +173,49 @@ export const ADMIN_DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
     },
     
 ]
+
+export const TEACHER_DASHBOARD_STUDENT_LINKS = [
+    
+    {
+        key: "attendance",
+        label: "Attendance",
+        title: "Attendance",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/students/attendance",
+    },
+    {
+        key: "timetable",
+        label: "Timetable",
+        title: "Timetable",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/students/timetable",
+    },
+    {
+        key: "leave",
+        label: "Leave Applications",
+        title: "Leave Application",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/students/leaveApplications",
+    },
+    {
+        key: "profiles",
+        label: "Student Profiles",
+        title: "Student Profiles",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/studentProfiles",
+    },
+    {
+        key: "passwords",
+        label: "Student Passwords",
+        title: "Student Passwords",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/studentPasswords",
+    },
+    {
+        key: "report",
+        label: "Student Report",
+        title: "Download Student Report",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/teacher/studentReport",
+    }
+]
