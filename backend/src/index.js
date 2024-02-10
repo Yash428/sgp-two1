@@ -1,6 +1,6 @@
 import { connectDb } from "./db/index.js";
 import express from "express"
-import { app } from "./api/app.js";
+import { app } from "./app.js";
 
 app.get('/',(req,res)=>{
     res.send("Heyy")
