@@ -4,6 +4,7 @@ import {getStudentTimetable} from "../controllers/student/student.timetable.cont
 import { studentAttendanceSummary } from "../controllers/student/student.attendance.controller.js";
 import {verifyStudentJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
+import { printHello } from "../controllers/student/student.controller.js";
 const router = Router()
 
 router.route("/login").post(loginStudent)
@@ -15,5 +16,5 @@ router.route("/getAttendance").post(studentAttendanceSummary)
 router.route("/logout").post(studentLogout)
 router.route("/addProfilePicture").post(verifyStudentJWT,upload.single("profileImage"),addProfilePicture)
 router.route("/updateProfilePicture").post(verifyStudentJWT,upload.single("profileImage"),updateProfilePicture)
-
+router.route("/").get(printHello)
 export default router

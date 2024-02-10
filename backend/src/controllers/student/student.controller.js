@@ -204,11 +204,20 @@ const updateProfilePicture = asyncHandler(async (req,res) => {
     .json(new ApiResponse(200,student,"profile picture updated"))
 
 })
+
+const printHello = asyncHandler(async(req,res)=>{
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,{},"Hello")
+    )
+})
 export {
     loginStudent,
     updateStudentPasswordWithOld,
     getCurrentUser,
     studentLogout,
     addProfilePicture,
-    updateProfilePicture
+    updateProfilePicture,
+    printHello
 }
