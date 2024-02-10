@@ -219,3 +219,55 @@ export const TEACHER_DASHBOARD_STUDENT_LINKS = [
         path: "/teacher/studentReport",
     }
 ]
+
+export const ADMIN_DASHBOARD_STUDENT_LINKS = [
+    {
+        key: "addStudent",
+        label: "Add Student",
+        title: "Add Student",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/addStudent",
+    },
+    {
+        key: "studentDatabase",
+        label: "Student Database",
+        title: "Student Database",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/studentDatabase",
+    },
+    {
+        key: "attendance",
+        label: "Attendance",
+        title: "Attendance",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/attendance",
+    },
+    {
+        key: "studentLeave",
+        label: "Student Leave Applications",
+        title: "Student Leave",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/studentLeave",
+    },
+    {
+        key: "studentProfile",
+        label: "Student Profiles",
+        title: "Student Profiles",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/studentProfile",
+    },
+    {
+        key: "studentReports",
+        label: "Student Reports",
+        title: "Student Reports",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/studentReports",
+    },
+    {
+        key: "performance",
+        label: "Student Performance",
+        title: "Student Performance",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/performance",
+    }
+]

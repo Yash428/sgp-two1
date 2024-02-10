@@ -25,8 +25,9 @@ import StudentPage from './pages/teacher/student/StudentPage.jsx'
 import Attendance from './components/teacher/students/Attendance.jsx'
 import StudentComponent from './components/teacher/students/StudentComponent.jsx'
 import FillAttendance from './components/teacher/students/FillAttendance.jsx'
-
-
+import AdminStudentPage from './pages/admin/student/AdminStudentPage.jsx' 
+import AdminStudentComponent from './components/admin/students/AdminStudentComponent.jsx'
+import AddStudent from './components/admin/students/AddStudent.jsx'
 const router = createBrowserRouter([
   {
     path:'/',
@@ -132,7 +133,35 @@ const router = createBrowserRouter([
           <Auth authentication>
             <AdminDashboard />
           </Auth>
-        )
+        ),
+        children:[
+          {
+            path: "students/",
+            element: (
+              <Auth authentication>
+                <AdminStudentPage />
+              </Auth>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                <Auth authentication>
+                  <AdminStudentComponent/>
+                </Auth>
+                )
+              },
+              {
+                path: "addStudent/",
+                element: (
+                  <Auth authentication>
+                    <AddStudent />
+                  </Auth>
+                )
+              }
+            ]
+          }
+        ]
       }
     ]
   }

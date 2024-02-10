@@ -88,31 +88,6 @@ const Student = sequelize.define('student',{
     }
 )
 
-// generateAccessToken = function(){
-//     return jwt.sign(
-//         {
-//             student_id:this.student_id,
-//             student_name:this.student_name
-//         },
-//         process.env.ACCESS_TOKEN_SECRET,
-//         {
-//             expiresIn:process.env.ACCESS_TOKEN_EXPIRY
-//         }
-//     )
-// }
-// generateRefreshToken = function(){
-//     return jwt.sign(
-//         {
-//             student_id: this.student_id,
-            
-//         },
-//         process.env.REFRESH_TOKEN_SECRET,
-//         {
-//             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
-//         }
-//     )
-// }
-
 export
 { 
     Student

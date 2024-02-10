@@ -102,6 +102,7 @@ const logoutTeacher = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,{},"User logged out"))
 })
 
+
 export {
     loginTeacher,
     updateTeacherPassword,

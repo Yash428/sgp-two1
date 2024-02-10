@@ -115,10 +115,10 @@ function Login() {
                         <form method="POST" className="mt-8">  
                             <div className="space-y-5">
                                 <div className="mt-2">
-                                    <Input type="text" onChange={e=>setId(e.target.value)} placeholder="Add Id"/>
+                                    <Input type="text" className='w-full' onChange={e=>setId(e.target.value)} placeholder="Add Id"/>
                                 </div>
                                 <div className="mt-2">
-                                    <Input type="password" onChange={e=>setPassword(e.target.value)} placeholder="Add Password"/>
+                                    <Input type="password" className='w-full' onChange={e=>setPassword(e.target.value)} placeholder="Add Password"/>
                                 </div>
                                     <button
                                     onClick={formHandler}

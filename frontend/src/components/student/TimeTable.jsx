@@ -10,7 +10,7 @@ function TimeTable() {
         axios.post('http://localhost:8002/api/v1/students/timetable',{studentClass: studentClass})
         .then(result=>{
             console.log(result.data.data);
-            setTimeTableData(result.data.data)
+            setTimeTableData( prev=> result.data.data)
         })
         .catch(error=>{
             console.log(error);

@@ -6,7 +6,11 @@ export default {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      height:{
+        '128': '32rem'
+      }
+    },
   },
   plugins: [
     require('flowbite/plugin')

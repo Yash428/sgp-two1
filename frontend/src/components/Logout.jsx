@@ -41,7 +41,18 @@ function Logout() {
                 .catch((error)=>{
                     console.log(error);
                 })
-            }    
+            }
+            else if(role ==="admin"){
+                axios.post('http://localhost:8002/api/v1/admin/logout')
+                .then(()=>{
+                    dispatch(logout())
+                    RemoveCookie('accessToken')
+                    console.log("logged out");
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+            }
             navigate("/")
         } catch (error) {
             console.log('Logout error');
