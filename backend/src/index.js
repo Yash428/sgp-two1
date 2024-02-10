@@ -1,6 +1,6 @@
 import { connectDb } from "./db/index.js";
 import express from "express"
-import { app } from "./app.js";
+import { app } from "./api/app.js";
 
 app.get('/',(req,res)=>{
     res.send("Heyy")
@@ -8,7 +8,9 @@ app.get('/',(req,res)=>{
 app.get('/testing',(req,res)=>{
     res.send("Heyy")
 })
-
+app.get('/api',(req,res)=>{
+    res.send("Heyy")
+})
 connectDb()
 .then(()=>{
     app.listen(process.env.PORT||8003,()=>{
