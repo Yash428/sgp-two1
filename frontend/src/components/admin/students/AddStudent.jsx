@@ -62,7 +62,7 @@ function AddStudent() {
             <div className='bg-neutral-100 h-12 mt-4 -px-4 rounded-lg flex justify-center items-center p-4' >
                 <span className='p-4 text-2xl '>Add Student</span>
             </div>
-            <form onSubmit = {onSubmit}className='overflow-y-scroll bg-neutral-100 flex flex-col h-128 mt-4 rounded-lg'>
+            <form onSubmit = {onSubmit}className='overflow-y-scroll md:px-6 lg:px-8 align-middle bg-neutral-100 flex flex-col h-128 mt-4 rounded-lg'>
                 <div className=''>
                     <div className='flex flex-row  p-3'>
                         <span className='p-2 text-xl'>Student Details </span>

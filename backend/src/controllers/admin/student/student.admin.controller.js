@@ -5,6 +5,11 @@ import {Student} from '../../../models/student.models.js'
 import { connectDb } from '../../../db/index.js'
 import { QueryTypes } from 'sequelize'
 
+const availableStudentClass = asyncHandler(async(req,res)=>{
+    const sequelize = await connectDb()
+    const sClassList = await sequelize.query()
+})
+
 const addStudent = asyncHandler(async(req,res)=>{
     const studentData = req.body
     console.log(studentData);
@@ -17,7 +22,7 @@ const addStudent = asyncHandler(async(req,res)=>{
         type: QueryTypes.SELECT,
         replacements: [sClass]
     })
-    
+    console.log(student);
     return res
     .status(200)
     .json(
