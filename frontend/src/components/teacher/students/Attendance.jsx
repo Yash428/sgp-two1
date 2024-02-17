@@ -5,29 +5,18 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 function Attendance() {
   const buttonCss = 'px-4 py-2 rounded-lg bg-neutral-200 border-black text-black'
-  
-  const tableData = [
-    {
-      id:useId(),
-      date: '01/03/2023',
-      time: '13:00',
-      class: '9-A',
-      subject: 'EN09',
-      to: "#"
-    },
-    {
-      id:useId(),
-      date: '01/03/2023',
-      time: '14:00',
-      class: '10-A',
-      subject: 'EN09',
-      to: "#"
-    }
-  ]
+
   const [pendingAttendance,setPendingAttendance] = useState([])
   const teacherId = useSelector((state)=>state.auth.data.teacher_id)
+  
   useEffect(()=>{
-    axios.post("http://localhost:8002/api/v1/teachers/students/attendance",{teacherId})
+    axios.post("http://localhost:8002/api/v1/teachers/students/attendance",{teacherId},{
+        headers:{
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        }
+    })
     .then(result=>{
         console.log(result.data.data);
         setPendingAttendance(result.data.data)

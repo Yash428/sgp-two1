@@ -6,9 +6,7 @@ import {Teacher} from "../models/teacher.models.js"
 import { Admin } from "../models/admin.models.js"
 export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
     try {
-        // console.log(req.cookies);
-        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","")
-        // console.log(token);
+        const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
         if(!token){
             throw new ApiError(401,"Unauthorized request")
         }
@@ -29,12 +27,16 @@ export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
 
 export const verifyTeacherJWT = asyncHandler(async(req,_,next)=>{
     try {
-        const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer","")
+        console.log('bbb');
+        console.log(req.headers);
+        const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
+        console.log(token);
         if(!token){
             throw new ApiError(401, "unauthorized request")
         }
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
         const teacherUser = await Teacher.findOne({where: {teacher_id: decodedToken?.teacher_id}})
+        console.log(teacherUser);
         if(!teacherUser){
             throw new ApiError(401, "invalid user")
         }

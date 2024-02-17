@@ -21,7 +21,13 @@ function FillAttendance() {
     }
     const handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post("http://localhost:8002/api/v1/teachers/students/fillAttendance",{att_p_id,attendanceData})
+        axios.post("http://localhost:8002/api/v1/teachers/students/fillAttendance",{att_p_id,attendanceData},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
         .then(
             result=>{
                 console.log("done");
@@ -33,7 +39,13 @@ function FillAttendance() {
         })
     }
     useEffect(()=>{
-        axios.post("http://localhost:8002/api/v1/teachers/students/getAllStudentsByAttPId",{att_p_id})
+        axios.post("http://localhost:8002/api/v1/teachers/students/getAllStudentsByAttPId",{att_p_id},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setAttendanceData(result.data.data)
@@ -41,7 +53,13 @@ function FillAttendance() {
         .catch(error=>{
             console.log(error);
         })
-        axios.post("http://localhost:8002/api/v1/teachers/students/getLectureData",{att_p_id})
+        axios.post("http://localhost:8002/api/v1/teachers/students/getLectureData",{att_p_id},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setLectureData(result.data.data[0])

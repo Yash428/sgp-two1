@@ -28,6 +28,10 @@ import FillAttendance from './components/teacher/students/FillAttendance.jsx'
 import AdminStudentPage from './pages/admin/student/AdminStudentPage.jsx' 
 import AdminStudentComponent from './components/admin/students/AdminStudentComponent.jsx'
 import AddStudent from './components/admin/students/AddStudent.jsx'
+import StudentList from './components/admin/students/StudentList.jsx'
+import StudentProfile from './components/admin/students/StudentProfile.jsx'
+import StudentTeacherList from './components/teacher/students/StudentTeacherList.jsx'
+import StudentProfileView from './components/teacher/students/StudentProfileView.jsx'
 const router = createBrowserRouter([
   {
     path:'/',
@@ -118,8 +122,24 @@ const router = createBrowserRouter([
               {
                 path: "fillAttendance/:att_p_id",
                 element: (
-                  <Auth>
+                  <Auth authentication>
                     <FillAttendance />
+                  </Auth>
+                )
+              },
+              {
+                path: 'studentProfiles/',
+                element:(
+                  <auth authentication>
+                    <StudentTeacherList />
+                  </auth>
+                )
+              },
+              {
+                path: 'studentProfile/:student_id',
+                element: (
+                  <Auth authentication>
+                    <StudentProfileView />
                   </Auth>
                 )
               }
@@ -156,6 +176,22 @@ const router = createBrowserRouter([
                 element: (
                   <Auth authentication>
                     <AddStudent />
+                  </Auth>
+                )
+              },
+              {
+                path: 'studentDatabase',
+                element: (
+                  <Auth authentication>
+                    <StudentList />
+                  </Auth>
+                )
+              },
+              {
+                path: 'studentProfile/:student_id',
+                element: (
+                  <Auth authentication>
+                    <StudentProfile />
                   </Auth>
                 )
               }

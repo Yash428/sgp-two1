@@ -33,21 +33,16 @@ const generateAccessAndRefreshToken = async(teacher_id)=>{
 
 const loginTeacher = asyncHandler(async(req,res)=>{
     const {teacherId,teacherPassword} = req.body
-    console.log(teacherId,teacherPassword)
-    // const sequelize= await connectDb()
-    // const result = await sequelize.query('select *from teacher where teacher_id = ?',{
-    //     replacements: [teacherId],
-    //     type: QueryTypes.SELECT
-    // })
+    //console.log(teacherId,teacherPassword)
     const teacher= await Teacher.findOne({where: {teacher_id:teacherId}})
-    console.log(teacher);
+    //console.log(teacher);
     if(!teacher){
         throw new ApiError(401, "Invalid User")
     }
     if(teacherPassword!==teacher.teacher_password){
         throw new ApiError(400,"Password is incorrect")
     }
-    console.log(teacher)
+    
     const {accessToken,refreshToken} = await generateAccessAndRefreshToken(teacher.teacher_id)
     const options = {
         secure: true,

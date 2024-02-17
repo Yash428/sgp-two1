@@ -3,11 +3,7 @@ import { Input } from '../components'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {login as authLogin} from "../store/authSlice"
-// import {login as roleLogin} from "../store/roleSlice"
 import {useDispatch} from "react-redux"
-import GetCookie from '../hooks/getCookie'
-import SetCookie from '../hooks/setCookie'
-import RemoveCookie from '../hooks/RemoveCookie'
 
 function Login() {
     const [id,setId] = useState('')
@@ -25,18 +21,14 @@ function Login() {
             try {
                 axios.post('http://localhost:8002/api/v1/students/login',userData)
                 .then(result =>{
-                    console.log(result.data.data.accessToken);
-                    SetCookie('accessToken',result.data.data.accessToken)
-                    // console.log(result.data.data.refreshToken);
-                    console.log(result.data);
+                    const accessToken = result.data.data.accessToken;
+                    localStorage.setItem('accessToken',accessToken)
                     if(result.data.data.student.length===0){ 
                         navigate('/')
                     }
                     let studentData = result.data.data.student[0];
                     studentData = {...studentData,role:"student"}
                     dispatch(authLogin(studentData))
-                    console.log(studentData);
-                    // dispatch(roleLogin("student"))
                 }).catch((e)=> {
                     console.log(e)
                     navigate('/')
@@ -54,16 +46,15 @@ function Login() {
             try {
                 axios.post('http://localhost:8002/api/v1/teachers/login',userData)
                 .then(result =>{
-                    console.log(result.data.data.teacher);
                     let teacherData = result.data.data.teacher
-                    SetCookie('accessToken',result.data.data.accessToken)
+                    const accessToken = result.data.data.accessToken;
+                    localStorage.setItem('accessToken',accessToken)
                     if(!teacherData){
                         navigate('/')
                     }
-                    teacherData = {...teacherData, role:"teacher"}
+                    teacherData = {...teacherData, role:"teacher",accessToken:accessToken}
                     if(teacherData){ 
                         dispatch(authLogin(teacherData))
-                        // dispatch(roleLogin("teacher"))
                     }
                 })
                 .catch((e)=>{
@@ -85,14 +76,14 @@ function Login() {
                 .then(result =>{
                     console.log(result.data.data.admin);
                     let adminData = result.data.data.admin
-                    SetCookie('accessToken',result.data.data.accessToken)
+                    const accessToken = result.data.data.accessToken;
+                    localStorage.setItem('accessToken',accessToken)
                     if(!adminData){
                         navigate('/')
                     }
                     adminData = {...adminData, role:"admin"}
                     if(adminData){ 
                         dispatch(authLogin(adminData))
-                        // dispatch(roleLogin("admin"))
                     }
                 })
                 .catch((e)=>{
@@ -104,7 +95,13 @@ function Login() {
                 console.log('Login error');
             }
         }
-        console.log("clicked");
+        else if(id.charAt(0)==='P' || id.charAt(0)==='p'){
+            id = id.toUpperCase()
+            let userData = {
+                parentId:id,
+                parentPassword:Password
+            }
+        }
     }
     return (
         <section>

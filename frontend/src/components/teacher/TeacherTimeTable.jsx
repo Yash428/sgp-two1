@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { axiosMethod } from '../../axiosMethods'
 function TeacherTimeTable() {
     const [teacherTimeTable,setTeacherTimeTable] = useState([])
     const selector = useSelector((state)=>state.auth.data)
+    
+    
     const teacherId = selector.teacher_id
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/teachers/timetable',{teacherId})
+        axios.post('http://localhost:8002/api/v1/teachers/timetable',{teacherId},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setTeacherTimeTable(result.data.data)
@@ -14,6 +23,8 @@ function TeacherTimeTable() {
         .catch(error=>{
             console.log(error);
         })
+        
+
     },[])
   return (
     <>

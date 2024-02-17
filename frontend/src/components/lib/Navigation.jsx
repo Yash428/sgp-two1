@@ -202,7 +202,7 @@ export const TEACHER_DASHBOARD_STUDENT_LINKS = [
         label: "Student Profiles",
         title: "Student Profiles",
         icon: <PiExam className="w-6 h-6"/>,
-        path: "/teacher/studentProfiles",
+        path: "/teacher/students/studentProfiles",
     },
     {
         key: "passwords",
@@ -248,13 +248,6 @@ export const ADMIN_DASHBOARD_STUDENT_LINKS = [
         title: "Student Leave",
         icon: <PiExam className="w-6 h-6"/>,
         path: "/admin/students/studentLeave",
-    },
-    {
-        key: "studentProfile",
-        label: "Student Profiles",
-        title: "Student Profiles",
-        icon: <PiExam className="w-6 h-6"/>,
-        path: "/admin/students/studentProfile",
     },
     {
         key: "studentReports",
