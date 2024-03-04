@@ -96,7 +96,6 @@ function Login() {
             }
         }
         else if(id.charAt(0)==='P' || id.charAt(0)==='p'){
-            id = id.toUpperCase()
             let userData = {
                 parentId:id,
                 parentPassword:Password

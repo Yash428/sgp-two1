@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
-import { axiosMethod } from '../../axiosMethods'
+
 function TeacherTimeTable() {
     const [teacherTimeTable,setTeacherTimeTable] = useState([])
     const selector = useSelector((state)=>state.auth.data)

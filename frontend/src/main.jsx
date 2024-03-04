@@ -32,6 +32,7 @@ import StudentList from './components/admin/students/StudentList.jsx'
 import StudentProfile from './components/admin/students/StudentProfile.jsx'
 import StudentTeacherList from './components/teacher/students/StudentTeacherList.jsx'
 import StudentProfileView from './components/teacher/students/StudentProfileView.jsx'
+import StudentAttendanceReport from './components/admin/students/StudentAttendanceReport.jsx'
 const router = createBrowserRouter([
   {
     path:'/',
@@ -192,6 +193,14 @@ const router = createBrowserRouter([
                 element: (
                   <Auth authentication>
                     <StudentProfile />
+                  </Auth>
+                )
+              },
+              {
+                path: 'attendance',
+                element:(
+                  <Auth authentication>
+                    <StudentAttendanceReport />
                   </Auth>
                 )
               }

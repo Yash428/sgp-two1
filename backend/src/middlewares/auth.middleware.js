@@ -10,10 +10,9 @@ export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
         if(!token){
             throw new ApiError(401,"Unauthorized request")
         }
-        // console.log("bomb... ");
+        
         const decodedToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
-        // console.log("jai shree ram");
-        // console.log(decodedToken);
+        
         const user = await Student.findOne({where: {student_id:decodedToken?.student_id}})
         if(!user){
             throw new ApiError(401,"Invalid user")
@@ -28,7 +27,6 @@ export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
 export const verifyTeacherJWT = asyncHandler(async(req,_,next)=>{
     try {
         console.log('bbb');
-        console.log(req.headers);
         const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
         console.log(token);
         if(!token){

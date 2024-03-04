@@ -4,11 +4,32 @@ import Button from '../../Button'
 import { IoEye } from "react-icons/io5";
 import { MdDelete, MdEdit} from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+import * as XLSX from 'xlsx';
+import { FaFilePdf } from "react-icons/fa6";
+import { usePDF } from 'react-to-pdf'
+
 function StudentList() {
     const [studentList,setStudentList] = useState([])
     const [studentClass,setStudentClass] = useState('')
     const [studentClassList,setStudentClassList] = useState([])
+    const [isSelected,setIsSelected] = useState(false)
     const navigate = useNavigate()
+    const printExcel = (e)=>{
+        
+        console.log(studentList);
+        const wRows = [
+            {width: 15},
+            {width:45},
+            {width:15},
+        ]
+        const workSheet = XLSX.utils.json_to_sheet(studentList)
+        workSheet["!cols"] = wRows
+        const workBook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workBook,workSheet,'Sheet 1')
+        XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
+    }
+    const { toPDF, targetRef } = usePDF({filename: `${studentClass}List.pdf`});
     useEffect(()=>{
         axios.post('http://localhost:8002/api/v1/admin/student/getClass')
         .then(result=>{
@@ -26,6 +47,7 @@ function StudentList() {
         })
         .then(response=>{
             console.log(response.data.data)
+            setIsSelected(true)
             setStudentList(response.data.data)
         })
         .catch(error=>{
@@ -62,9 +84,18 @@ function StudentList() {
                 </select>
                 <Button type='submit' >Submit</Button>
             </form>
-            
+            {
+                isSelected?(<div className='flex flex-row m-1'><form onSubmit={printExcel}>
+                <Button type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-green-500'><PiMicrosoftExcelLogoFill /> Export as Excel</Button>
+                </form>
+                <form onSubmit={()=>toPDF()}>
+                <Button type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
+                </form>
+                </div>
+                ):(null)
+            }
         </div>
-        <div className='overflow-y-scroll h-5/6'>
+        <div ref={targetRef} className='overflow-y-scroll h-5/6'>
             <div className=" overflow-auto min-w-full  py-2 align-middle md:px-6 lg:px-8">
                 <div className="border border-gray-200 md:rounded-lg">
                     <table className="w-full divide-y h-full divide-gray-200">

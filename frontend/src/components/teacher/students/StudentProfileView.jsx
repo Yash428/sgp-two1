@@ -21,7 +21,13 @@ function StudentProfileView() {
     const [student,setStudent] = useState([{}])
     
     useEffect(()=>{
-        axios.post("http://localhost:8002/api/v1/teachers/students/getStudentData",{student_id})
+        axios.post("http://localhost:8002/api/v1/teachers/students/getStudentData",{student_id},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setStudent(result.data.data[0])

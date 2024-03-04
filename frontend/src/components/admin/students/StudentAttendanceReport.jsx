@@ -1,28 +1,32 @@
-import axios from 'axios'
-import React, { useEffect,useState, useId } from 'react'
-import Button from '../../Button'
 import { IoEye } from "react-icons/io5";
 import { MdDelete, MdEdit} from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
+import Button from '../../Button'
+import axios from 'axios'
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 import * as XLSX from 'xlsx';
 import { FaFilePdf } from "react-icons/fa6";
-import { usePDF } from 'react-to-pdf'
+import React, { useEffect,useState, useId } from 'react'
+import { useSelector } from 'react-redux'
+import { usePDF,Margin } from 'react-to-pdf'
+import {getExcel} from '../../../Excel/index.js'
 
-function StudentTeacherList() {
-    const [studentList,setStudentList] = useState([])
+
+function StudentAttendanceReport() {
+  const [studentList,setStudentList] = useState([])
     const [studentClass,setStudentClass] = useState('')
     const [studentClassList,setStudentClassList] = useState([])
     const [isSelected,setIsSelected] = useState(false)
+    const adminId = useSelector(state =>state.auth.data.admin_id)
     const navigate = useNavigate()
+    const headers = [
+        {header:'Student Id',key:'student_id',width:10,height:20},
+        {header: 'Student Name',key:'student_name',width:30,height:20},
+        {header: 'Student Class',key:'student_class',width:14,height:20},
+        {header: 'Attendance',key:'attendance',width:11,height:20}
+    ]
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/teachers/students/class',{},{
-            headers:{
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
+        axios.post('http://localhost:8002/api/v1/admin/student/getClass')
         .then(result=>{
             console.log(result.data.data);
             setStudentClassList(result.data.data)
@@ -31,24 +35,18 @@ function StudentTeacherList() {
             console.log(error);
         })
     },[])
+    const { toPDF, targetRef } = usePDF({
+        method: "save",
+        filename: `${studentClass}-Attendance.pdf`,
+        page: { margin: Margin.LARGE },
+        
+    });
     const printExcel = (e)=>{
-        console.log(studentList);
-        const wRows = [
-            {width: 15},
-            {width:45},
-            {width:15},
-        ]
-        const workSheet = XLSX.utils.json_to_sheet(studentList)
-        workSheet["!cols"] = wRows
-        const workBook = XLSX.utils.book_new()
-        XLSX.utils.book_append_sheet(workBook,workSheet,'Sheet 1')
-        XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
-    }
-    const { toPDF, targetRef } = usePDF({filename: `${studentClass}List.pdf`});
-    const onSubmit = (e)=>{
-        e.preventDefault()
-        axios.post('http://localhost:8002/api/v1/teachers/students/studentList',{
-            studentClass
+        axios.post("http://localhost:8002/api/v1/admin/generateExcel",{
+            data:studentList,
+            bookName:'Attendance',
+            creatorId:adminId,
+            headers
         },{
             headers:{
                 "Accept": "application/json",
@@ -56,10 +54,37 @@ function StudentTeacherList() {
                 "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
+        .then(result=>{
+            console.log(result.data);
+        })
+        // getExcel({data:studentList,bookName:'Attendance',creatorId:adminId})
+        // console.log(studentList);
+        // const wRows = [
+        //     {width: 15},
+        //     {width:30},
+        //     {width:15},
+        //     {width:15}
+        // ]
+        // const headerStyle = {
+        //     font: { bold: true },
+        //     alignment: { vertical: 'middle', horizontal: 'center' }
+        // }
+        // const workSheet = XLSX.utils.json_to_sheet(studentList)
+        // workSheet["!cols"] = wRows
+        
+        // const workBook = XLSX.utils.book_new()
+        // XLSX.utils.book_append_sheet(workBook,workSheet,'Sheet 1')
+        // workSheet['!rows'] = [headerStyle];
+        // XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
+    }
+    const onSubmit = (e)=>{
+        e.preventDefault()
+        axios.post('http://localhost:8002/api/v1/admin/student/getAttendanceByClass',{
+            studentClass
+        })
         .then(response=>{
+            setIsSelected(prev=>!prev.isSelected)
             console.log(response.data.data)
-            setIsSelected(true)
-            console.log(isSelected);
             setStudentList(response.data.data)
         })
         .catch(error=>{
@@ -67,12 +92,11 @@ function StudentTeacherList() {
         })
     }
     
-    
     const LinkCss= "px-4 py-2 rounded-lg text-white"
     return (
         <div className='h-screen bg-neutral-200'>
         <div className=' h-16 bg-neutral-100 m-4 my-2 rounded-lg min-w-96 flex items-center sticky'>
-            <div><span className='px-4 py-2 text-2xl '> Student List </span></div>
+            <div><span className='px-4 py-2 text-2xl '> Student Attendance List </span></div>
             <form onSubmit={onSubmit} className='flex'>
                 <select name="" id="studentClass" className='h-10 p-2 mx-3 rounded-lg w-80 bg-neutral-100' value={studentClass}  onChange={(e)=>setStudentClass(e.target.value)}>
                     <option key={0} value="">Select Class</option>
@@ -84,20 +108,13 @@ function StudentTeacherList() {
                 </select>
                 <Button type='submit' >Submit</Button>
             </form>
-            <div >
-                {
-                    isSelected?(<div className='flex flex-row m-1'><form onSubmit={printExcel}>
-                    <Button type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-green-500'><PiMicrosoftExcelLogoFill /> Export as Excel</Button>
-                    </form>
-                    <form onSubmit={()=>toPDF()}>
-                    <Button type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
-                    </form>
-                    </div>
-                    ):(null)
-                }
-            </div>
-            
-            
+            {
+                isSelected?(<div className='flex flex-row m-1'>
+                <Button onClick={printExcel} type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-green-500'><PiMicrosoftExcelLogoFill /> Export as Excel</Button>
+                <Button type='submit' onClick={toPDF} className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
+                </div>
+                ):(null)
+            }
         </div>
         <div ref={targetRef} className='overflow-y-scroll h-5/6'>
             <div className=" overflow-auto min-w-full  py-2 align-middle md:px-6 lg:px-8">
@@ -127,7 +144,7 @@ function StudentTeacherList() {
                                     scope="col"
                                     className="px-4 py-3 text-center text-sm font-normal text-gray-700  w-1/4"
                                 >
-                                {' '}
+                                Attendance
                                 </th>
                             </tr>
                         </thead>
@@ -148,7 +165,7 @@ function StudentTeacherList() {
                                     </td>
                                     
                                     <td className="whitespace-nowrap flex flex-row items-center justify-center text-center text-sm font-medium w-1/4">
-                                        <Link to={`/teacher/students/studentProfile/${item.student_id}`} className={`${LinkCss} m-1 flex flex-row items-center justify-center bg-green-700`} ><IoEye /> View</Link>
+                                        {item.attendance}%
                                     </td>
                                 </tr>
                                 ))
@@ -162,4 +179,4 @@ function StudentTeacherList() {
     )
 }
 
-export default StudentTeacherList
+export default StudentAttendanceReport
