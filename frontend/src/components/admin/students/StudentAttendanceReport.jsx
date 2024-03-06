@@ -26,7 +26,13 @@ function StudentAttendanceReport() {
         {header: 'Attendance',key:'attendance',width:11,height:20}
     ]
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/admin/student/getClass')
+        axios.post('http://localhost:8002/api/v1/admin/student/getClass',{},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setStudentClassList(result.data.data)
