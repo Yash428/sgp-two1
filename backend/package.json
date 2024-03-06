@@ -11,6 +11,7 @@
   "author": "yash",
   "license": "ISC",
   "dependencies": {
+    "@pdftron/pdfnet-node": "^10.7.0",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.0.0",
     "cookie-parser": "^1.4.6",

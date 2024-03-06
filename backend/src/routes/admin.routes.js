@@ -4,6 +4,7 @@ import { verfyAdminJWT } from "../middlewares/auth.middleware.js";
 import { addStudent, deleteStudent, getClassNames, getStudentByClass, getStudentDetails } from "../controllers/admin/student/student.admin.controller.js";
 import { getAttendanceByClass } from "../controllers/admin/student/studentAttendance.admin.controller.js";
 import { generateExcel } from "../Excel/index.js";
+import { convertFromOffice } from "../pdf/index.js";
 
 const router = Router()
 router.route("/login").post(loginAdmin)
@@ -15,4 +16,5 @@ router.route("/student/getStudentDetails").post(getStudentDetails)
 router.route("/student/deleteStudent").post(deleteStudent)
 router.route("/student/getAttendanceByClass").post(getAttendanceByClass)
 router.route("/generateExcel").post(generateExcel)
+router.route("/wtop").post(convertFromOffice)
 export default router

@@ -7,7 +7,13 @@ function TimeTable() {
     const [timeTableData,setTimeTableData] = useState([])
     const studentClass = selector.student_class
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/students/timetable',{studentClass: studentClass})
+        axios.post('http://localhost:8002/api/v1/students/timetable',{studentClass: studentClass},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
         .then(result=>{
             console.log(result.data.data);
             setTimeTableData( prev=> result.data.data)
