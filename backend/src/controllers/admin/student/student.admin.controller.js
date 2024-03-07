@@ -72,6 +72,7 @@ const deleteStudent = asyncHandler(async(req,res)=>{
 const generateStudentExcel = asyncHandler(async(req,res)=>{
     
 })
+
 const addStudent = asyncHandler(async(req,res)=>{
     const studentData = req.body
     console.log(studentData);

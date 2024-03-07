@@ -10,10 +10,11 @@ import React, { useEffect,useState, useId } from 'react'
 import { useSelector } from 'react-redux'
 import { usePDF,Margin } from 'react-to-pdf'
 import {getExcel} from '../../../Excel/index.js'
-
+import fileSaver from 'file-saver'
+import { saveAs } from "file-saver";
 
 function StudentAttendanceReport() {
-  const [studentList,setStudentList] = useState([])
+    const [studentList,setStudentList] = useState([])
     const [studentClass,setStudentClass] = useState('')
     const [studentClassList,setStudentClassList] = useState([])
     const [isSelected,setIsSelected] = useState(false)
@@ -39,14 +40,10 @@ function StudentAttendanceReport() {
         })
         .catch((error)=>{
             console.log(error);
+            
         })
     },[])
-    const { toPDF, targetRef } = usePDF({
-        method: "save",
-        filename: `${studentClass}-Attendance.pdf`,
-        page: { margin: Margin.LARGE },
-        
-    });
+
     const printExcel = (e)=>{
         axios.post("http://localhost:8002/api/v1/admin/generateExcel",{
             data:studentList,
@@ -83,6 +80,26 @@ function StudentAttendanceReport() {
         // workSheet['!rows'] = [headerStyle];
         // XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
     }
+    const generatePdf = (e)=>{
+        e.preventDefault()
+        axios.post('http://localhost:8002/api/v1/admin/student/generateAttendancePdf',{
+            studentClass
+        },
+        {
+            headers:{
+                // "Accept": "application/json",
+                // "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            },
+            responseType:'blob'
+        }
+        )
+        .then(result=>{
+            fileSaver.saveAs(result.data,`${studentClass}Attendance.pdf`)
+            console.log(result.data);
+        })
+        console.log('Successfully');
+    }
     const onSubmit = (e)=>{
         e.preventDefault()
         axios.post('http://localhost:8002/api/v1/admin/student/getAttendanceByClass',{
@@ -117,12 +134,12 @@ function StudentAttendanceReport() {
             {
                 isSelected?(<div className='flex flex-row m-1'>
                 <Button onClick={printExcel} type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-green-500'><PiMicrosoftExcelLogoFill /> Export as Excel</Button>
-                <Button type='submit' onClick={toPDF} className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
+                <Button type='submit' onClick={generatePdf} className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
                 </div>
                 ):(null)
             }
         </div>
-        <div ref={targetRef} className='overflow-y-scroll h-5/6'>
+        <div className='overflow-y-scroll h-5/6'>
             <div className=" overflow-auto min-w-full  py-2 align-middle md:px-6 lg:px-8">
                 <div className="border border-gray-200 md:rounded-lg">
                     <table className="w-full divide-y h-full divide-gray-200">
