@@ -33,6 +33,8 @@ import StudentProfile from './components/admin/students/StudentProfile.jsx'
 import StudentTeacherList from './components/teacher/students/StudentTeacherList.jsx'
 import StudentProfileView from './components/teacher/students/StudentProfileView.jsx'
 import StudentAttendanceReport from './components/admin/students/StudentAttendanceReport.jsx'
+import Error from './components/alerts/Error.jsx'
+
 const router = createBrowserRouter([
   {
     path:'/',
@@ -64,6 +66,10 @@ const router = createBrowserRouter([
             <Auth authentication>
               <TimeTable />
             </Auth>)
+          },
+          {
+            path: "loginError/",
+            element: <Error message={'login Error'} description={'invalid username or password'} buttonName={'Ok'} />
           },
           {
             path: "attendance/",

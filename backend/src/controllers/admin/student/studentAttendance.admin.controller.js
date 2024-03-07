@@ -3,6 +3,11 @@ import { ApiError, ApiResponse } from "../../../utils/index.js"
 import { asyncHandler } from "../../../utils/asyncHandler.js"
 import { getStudentDetails,getStudentByClass } from "./student.admin.controller.js"
 import { connectDb } from "../../../db/index.js"
+import generatePDF from "react-to-pdf"
+import { generateTablePdf } from "../../../pdf/index.js"
+import path from 'path'
+import fs from 'fs'
+import { log } from "console"
 
 const studentAttendanceSummary = async({studentId,studentClass}) => {
 
@@ -62,8 +67,31 @@ const getAttendanceByClass = asyncHandler(async(req,res)=>{
     )
 })
 
+const getAttendanceSummaryPDF = asyncHandler(async(req,res)=>{
+    const {studentClass} = req.body
+    const sequelize = await connectDb()
+    const studentList =   await sequelize.query('select student_id,student_name, 0 as attendance from student where student_class=?',{
+        replacements: [studentClass],
+        type: QueryTypes.SELECT
+    })
+    for(let student of studentList){
+        let att = await studentAttendanceSummary({studentId:student.student_id,studentClass})
+        student.attendance = att
+    }
+    if(!studentList){
+        throw new ApiError(400, "Student not found")
+    }
+    try {
+        generateTablePdf(`${studentClass}AttendanceReport`,studentList,`Attendance Report [${studentClass}]`,['Student Id','Student Name','Attendance[in %]'])
+    } catch (error) {
+        throw new ApiError(200,'File is not generated')
+    }
+    return res.download(path.resolve(`public/pdf/${studentClass}AttendanceReport.pdf`))
+})
+
 export {
     studentAttendanceSummary,
     getSubjectList,
-    getAttendanceByClass
+    getAttendanceByClass,
+    getAttendanceSummaryPDF
 }
