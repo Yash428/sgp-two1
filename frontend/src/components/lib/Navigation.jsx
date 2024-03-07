@@ -209,7 +209,7 @@ export const TEACHER_DASHBOARD_STUDENT_LINKS = [
         label: "Student Passwords",
         title: "Student Passwords",
         icon: <PiExam className="w-6 h-6"/>,
-        path: "/teacher/studentPasswords",
+        path: "/teacher/students/studentPasswords",
     },
     {
         key: "report",

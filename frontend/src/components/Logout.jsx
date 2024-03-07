@@ -12,6 +12,7 @@ function Logout() {
     const role = useSelector((state)=>state.auth.role)
     const handleLogout = (e) =>{
         e.preventDefault()
+        console.log(localStorage.getItem('accessToken'));
         try {
             if(role === "student"){
                 axios.post('http://localhost:8002/api/v1/students/logout',{},{
@@ -23,9 +24,7 @@ function Logout() {
                 })
                 .then(() =>{
                     dispatch(logout())
-                    
                     console.log("logged out");
-                    
                 })
                 .catch((error)=>{
                     console.log(error);
@@ -58,7 +57,6 @@ function Logout() {
                 })
                 .then(()=>{
                     dispatch(logout())
-                    
                     console.log("logged out");
                 })
                 .catch((error)=>{

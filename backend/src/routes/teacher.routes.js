@@ -20,4 +20,5 @@ router.route("/students/getAllStudentsByAttPId").post(verifyTeacherJWT,getStuden
 router.route("/students/getLectureData").post(verifyTeacherJWT,lectureDataByAttPId)
 router.route("/students/getStudentIdByAttPId").post(verifyTeacherJWT,getStudentIdsByAttPId)
 router.route("/students/getStudentData").post(verifyTeacherJWT,getStudentDetails)
+router.route("/students/getStudentPassword").post(verifyTeacherJWT,getStudentPasswordByClass)
 export default router

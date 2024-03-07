@@ -1,17 +1,10 @@
-import { IoEye } from "react-icons/io5";
-import { MdDelete, MdEdit} from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../Button'
 import axios from 'axios'
-import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
-import * as XLSX from 'xlsx';
 import { FaFilePdf } from "react-icons/fa6";
 import React, { useEffect,useState, useId } from 'react'
 import { useSelector } from 'react-redux'
-import { usePDF,Margin } from 'react-to-pdf'
-import {getExcel} from '../../../Excel/index.js'
 import fileSaver from 'file-saver'
-import { saveAs } from "file-saver";
 
 function StudentAttendanceReport() {
     const [studentList,setStudentList] = useState([])
@@ -20,12 +13,12 @@ function StudentAttendanceReport() {
     const [isSelected,setIsSelected] = useState(false)
     const adminId = useSelector(state =>state.auth.data.admin_id)
     const navigate = useNavigate()
-    const headers = [
-        {header:'Student Id',key:'student_id',width:10,height:20},
-        {header: 'Student Name',key:'student_name',width:30,height:20},
-        {header: 'Student Class',key:'student_class',width:14,height:20},
-        {header: 'Attendance',key:'attendance',width:11,height:20}
-    ]
+    // const headers = [
+    //     {header:'Student Id',key:'student_id',width:10,height:20},
+    //     {header: 'Student Name',key:'student_name',width:30,height:20},
+    //     {header: 'Student Class',key:'student_class',width:14,height:20},
+    //     {header: 'Attendance',key:'attendance',width:11,height:20}
+    // ]
     useEffect(()=>{
         axios.post('http://localhost:8002/api/v1/admin/student/getClass',{},{
             headers:{
@@ -44,48 +37,9 @@ function StudentAttendanceReport() {
         })
     },[])
 
-    const printExcel = (e)=>{
-        axios.post("http://localhost:8002/api/v1/admin/generateExcel",{
-            data:studentList,
-            bookName:'Attendance',
-            creatorId:adminId,
-            headers
-        },{
-            headers:{
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-        .then(result=>{
-            console.log(result.data);
-        })
-        // getExcel({data:studentList,bookName:'Attendance',creatorId:adminId})
-        // console.log(studentList);
-        // const wRows = [
-        //     {width: 15},
-        //     {width:30},
-        //     {width:15},
-        //     {width:15}
-        // ]
-        // const headerStyle = {
-        //     font: { bold: true },
-        //     alignment: { vertical: 'middle', horizontal: 'center' }
-        // }
-        // const workSheet = XLSX.utils.json_to_sheet(studentList)
-        // workSheet["!cols"] = wRows
-        
-        // const workBook = XLSX.utils.book_new()
-        // XLSX.utils.book_append_sheet(workBook,workSheet,'Sheet 1')
-        // workSheet['!rows'] = [headerStyle];
-        // XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
-    }
     const generatePdf = (e)=>{
         e.preventDefault()
-        axios.post('http://localhost:8002/api/v1/admin/student/generateAttendancePdf',{
-            studentClass
-        },
-        {
+        axios.post('http://localhost:8002/api/v1/admin/student/generateAttendancePdf',{studentClass},{
             headers:{
                 // "Accept": "application/json",
                 // "Content-Type": "application/json",
@@ -98,12 +52,20 @@ function StudentAttendanceReport() {
             fileSaver.saveAs(result.data,`${studentClass}Attendance.pdf`)
             console.log(result.data);
         })
+        .catch(error=>{
+            console.log(error);
+        })
         console.log('Successfully');
     }
+
     const onSubmit = (e)=>{
         e.preventDefault()
-        axios.post('http://localhost:8002/api/v1/admin/student/getAttendanceByClass',{
-            studentClass
+        axios.post('http://localhost:8002/api/v1/admin/student/getAttendanceByClass',{studentClass},{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
         })
         .then(response=>{
             setIsSelected(prev=>!prev.isSelected)
@@ -133,7 +95,6 @@ function StudentAttendanceReport() {
             </form>
             {
                 isSelected?(<div className='flex flex-row m-1'>
-                <Button onClick={printExcel} type='submit' className='flex flex-row items-center h-10 mx-2' bgColor='bg-green-500'><PiMicrosoftExcelLogoFill /> Export as Excel</Button>
                 <Button type='submit' onClick={generatePdf} className='flex flex-row items-center h-10 mx-2' bgColor='bg-red-500'><FaFilePdf />Export as Pdf</Button>
                 </div>
                 ):(null)

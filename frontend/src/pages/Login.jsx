@@ -82,9 +82,11 @@ function Login() {
             try {
                 axios.post('http://localhost:8002/api/v1/admin/login',userData)
                 .then(result =>{
+                    console.log(result.data.data);
                     console.log(result.data.data.admin);
                     let adminData = result.data.data.admin
                     const accessToken = result.data.data.accessToken;
+                    console.log(accessToken);
                     localStorage.setItem('accessToken',accessToken)
                     if(!adminData){
                         navigate('/')

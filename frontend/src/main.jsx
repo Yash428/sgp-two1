@@ -34,6 +34,7 @@ import StudentTeacherList from './components/teacher/students/StudentTeacherList
 import StudentProfileView from './components/teacher/students/StudentProfileView.jsx'
 import StudentAttendanceReport from './components/admin/students/StudentAttendanceReport.jsx'
 import Error from './components/alerts/Error.jsx'
+import StudentPassword from './components/teacher/students/StudentPassword.jsx'
 
 const router = createBrowserRouter([
   {
@@ -147,6 +148,14 @@ const router = createBrowserRouter([
                 element: (
                   <Auth authentication>
                     <StudentProfileView />
+                  </Auth>
+                )
+              },
+              {
+                path:'studentPasswords/',
+                element:(
+                  <Auth authentication>
+                    <StudentPassword />
                   </Auth>
                 )
               }

@@ -7,7 +7,9 @@ import generatePDF from "react-to-pdf"
 import { generateTablePdf } from "../../../pdf/index.js"
 import path from 'path'
 import fs from 'fs'
-import { log } from "console"
+import {getExcel} from "../../../Excel/index.js"
+
+
 
 const studentAttendanceSummary = async({studentId,studentClass}) => {
 

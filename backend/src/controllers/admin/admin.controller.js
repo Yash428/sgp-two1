@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 const generateAccessAndRefreshToken = async(adminId) =>{
     try {
         const admin = await Admin.findOne({where: {admin_id:adminId}})
-        const acceessToken = jwt.sign({
+        const accessToken = jwt.sign({
             admin_id:admin.admin_id
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -23,7 +23,7 @@ const generateAccessAndRefreshToken = async(adminId) =>{
         })
         admin.refresh_token = refreshToken
         await admin.save({validate:false})
-        return {acceessToken,refreshToken}
+        return {accessToken,refreshToken}
     } catch (error) {
         console.log(error);
     }
@@ -37,18 +37,19 @@ const loginAdmin = asyncHandler(async(req,res)=>{
         throw new ApiError(400,"Password is wrong")
     }
     const admin_id = admin.admin_id
-    const {acceessToken,refreshToken} = await generateAccessAndRefreshToken(admin_id)
+    const {accessToken,refreshToken} = await generateAccessAndRefreshToken(admin_id)
     const options = {
         httpOnly:true,
         secure:true
     }
+    console.log(accessToken);
     return res
     .status(200)
-    .cookie("accessToken",acceessToken,options)
+    .cookie("accessToken",accessToken,options)
     .cookie("refreshToken",refreshToken,options)
     .json(
         new ApiResponse(200,{
-            admin:admin,acceessToken,refreshToken
+            admin:admin,accessToken,refreshToken
         },"admin logged in")
     )
 
