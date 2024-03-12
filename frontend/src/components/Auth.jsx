@@ -8,14 +8,14 @@ export default function Protected({children, authentication = true}){
     const [loader, setLoader] = useState(true)
     const authStatus = useSelector(state =>state.auth.status)
     const dispatch = useDispatch()
+    
     useEffect(()=>{
-        if(authentication && authStatus !== authentication){
-            navigate("")    //Sends to Login Page
-        }
-        else if(!authentication && authStatus !== authentication ){
-            navigate("/")   //Sends to /
+        
+        if(localStorage.getItem('accessToken')===null){
+            console.log("Authentication error");
+            navigate("/login")
         }
         setLoader(false)
-    },[authStatus, navigate, authentication])
+    },[navigate,authentication,authStatus])
     return loader ? <h1>Loading... </h1> : <>{children}</>
 }

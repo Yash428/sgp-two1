@@ -3,15 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 function TimeTable() {
-    const selector = useSelector((state)=>state.auth.data)
+    const studentClass = useSelector((state)=>state.auth.data.student_class)
     const [timeTableData,setTimeTableData] = useState([])
-    const studentClass = selector.student_class
+    
     useEffect(()=>{
         axios.post('http://localhost:8002/api/v1/students/timetable',{studentClass: studentClass},{
             headers:{
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                "role": `Bearer ${localStorage.getItem("role")}`
             }
         })
         .then(result=>{
@@ -41,7 +42,6 @@ function TimeTable() {
                                 >
                                     Subject Id
                                 </th>
-
                                 <th
                                     scope="col"
                                     className="px-4 py-3.5 text-center dark:text-gray-100 text-sm font-normal text-gray-700"

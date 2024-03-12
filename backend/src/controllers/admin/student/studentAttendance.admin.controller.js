@@ -11,7 +11,7 @@ import {getExcel} from "../../../Excel/index.js"
 
 
 
-const studentAttendanceSummary = async({studentId,studentClass}) => {
+const studentAttendanceSummary = async({studentId}) => {
 
     let attList = []
     let total= await getTotalCount(studentId);
@@ -23,7 +23,7 @@ const studentAttendanceSummary = async({studentId,studentClass}) => {
 
 const getTotalCount = async(studentId) =>{
     const sequelize= await connectDb()
-    const result = await sequelize.query("select count(a.is_present) as p from timetable as tt inner join att_par as a1 on a1.tt_id  = tt.tt_id inner join att_table as a on a.att_p_id  = a1.att_p_id where (a.st_id =  'S23001') order by tt.sub_id;",{
+    const result = await sequelize.query("select count(a.is_present) as p from timetable as tt inner join att_par as a1 on a1.tt_id  = tt.tt_id inner join att_table as a on a.att_p_id  = a1.att_p_id where (a.st_id = ?) order by tt.sub_id;",{
         replacements: [studentId],
         type: QueryTypes.SELECT
     })
@@ -77,7 +77,7 @@ const getAttendanceSummaryPDF = asyncHandler(async(req,res)=>{
         type: QueryTypes.SELECT
     })
     for(let student of studentList){
-        let att = await studentAttendanceSummary({studentId:student.student_id,studentClass})
+        let att = await studentAttendanceSummary({studentId:student.student_id})
         student.attendance = att
     }
     if(!studentList){
@@ -95,5 +95,7 @@ export {
     studentAttendanceSummary,
     getSubjectList,
     getAttendanceByClass,
-    getAttendanceSummaryPDF
+    getAttendanceSummaryPDF,
+    getPresentCount,
+    getTotalCount
 }

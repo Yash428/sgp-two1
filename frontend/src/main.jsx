@@ -4,13 +4,12 @@ import App from './App.jsx'
 import './index.css'
 import{Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from "react-router-dom"
 import Login from './pages/Login.jsx'
-import PageOne from './pages/PageOne.jsx'
+
 // import PrintAllStudents from './components/PrintAllStudents.jsx'
 import { Provider, useSelector } from 'react-redux'
 import { persistedStore, store } from './store/store.js'
 import  {Auth} from './components'
-import PageTwo from './pages/PageTwo.jsx'
-import PageThree from './pages/PageThree.jsx'
+
 import { TableOne } from './components/TableOne.jsx'
 import { PersistGate } from 'redux-persist/integration/react'
 import persistStore from 'redux-persist/es/persistStore'
@@ -35,6 +34,12 @@ import StudentProfileView from './components/teacher/students/StudentProfileView
 import StudentAttendanceReport from './components/admin/students/StudentAttendanceReport.jsx'
 import Error from './components/alerts/Error.jsx'
 import StudentPassword from './components/teacher/students/StudentPassword.jsx'
+import More from './components/student/more/more.jsx'
+import AddProfilePicture from './components/student/more/AddProfilePicture.jsx'
+import Numbers from './components/admin/dashboard/Numbers.jsx'
+import TimeTableMenu from './components/admin/students/TimeTableMenu.jsx'
+import ViewTimeTable from './components/admin/students/timetable/ViewTimeTable.jsx'
+import ExamPage from './components/student/exam/ExamPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -43,20 +48,27 @@ const router = createBrowserRouter([
       <Auth authentication>
         <App />
       </Auth>
-      // <App />
+      
     ),
     children :[
       {
-        path: "",
+        path: "/",
         element: (
-        <Auth authentication={false} >
+        <Auth authentication={false}  >
+          <Login />
+        </Auth>)
+      },
+      {
+        path: "login/",
+        element: (
+        <Auth authentication={false}  >
           <Login />
         </Auth>)
       },
       {
         path: 'student/',
         element: (
-          <Auth authentication>
+          <Auth authentication >
             <StudentDashBoard />
           </Auth>
         ),
@@ -80,12 +92,40 @@ const router = createBrowserRouter([
             </Auth>)
           },
           {
-            path: 'settings',
+            path: 'settings/',
             element: (
               <Auth authentication>
                 <SetPassword />
               </Auth>
             )
+          },
+          {
+            path:"exam",
+            element: (
+            <Auth authentication>
+              <ExamPage />
+            </Auth>)
+          },
+          {
+            path: 'more/',
+            children: [
+              {
+                path: '',
+                element: (
+                  <Auth authentication >
+                    <More />
+                  </Auth>
+            )
+              },
+              {
+                path: 'addProfilePicture',
+                element: (
+                  <Auth authentication >
+                    <AddProfilePicture />
+                  </Auth>
+                )
+              }
+            ]
           }
         ]
       },
@@ -172,6 +212,14 @@ const router = createBrowserRouter([
         ),
         children:[
           {
+            path: '',
+            element:(
+              <Auth authentication>
+                <Numbers />
+              </Auth>
+            )
+          },
+          {
             path: "students/",
             element: (
               <Auth authentication>
@@ -218,6 +266,27 @@ const router = createBrowserRouter([
                     <StudentAttendanceReport />
                   </Auth>
                 )
+              },
+              {
+                path: 'timeTable',
+                children: [
+                  {
+                    path: '',
+                    element:(
+                      <Auth authentication>
+                        <TimeTableMenu />
+                      </Auth>
+                    )
+                  },
+                  {
+                    path: 'viewTimeTable',
+                    element:(
+                      <Auth authentication >
+                        <ViewTimeTable />
+                      </Auth>
+                    )
+                  }
+                ]
               }
             ]
           }

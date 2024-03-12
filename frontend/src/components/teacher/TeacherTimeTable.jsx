@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { useUser } from '../../store/authSlice'
 
 function TeacherTimeTable() {
     const [teacherTimeTable,setTeacherTimeTable] = useState([])
-    const selector = useSelector((state)=>state.auth.data)
+    const teacher = useUser()
     
-    
-    const teacherId = selector.teacher_id
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/teachers/timetable',{teacherId},{
+        
+        axios.post('http://localhost:8002/api/v1/teachers/timetable',{teacherId:teacher.teacher_id},{
             headers:{
                 "Accept": "application/json",
                 "Content-Type": "application/json",

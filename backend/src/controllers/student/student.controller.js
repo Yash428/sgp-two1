@@ -9,16 +9,13 @@ import {uploadOnCloudinary, deleteFromCloudinary} from "../../utils/cloudinary.j
 
 const generateAccessAndRefreshToken = async(student_id)=>{
     try {
-        // console.log(student_id);
         const student = await Student.findOne({where: {student_id}})
-        // console.log("pppp"+student);
         const accessToken = jwt.sign({student_id:student.student_id},
             process.env.ACCESS_TOKEN_SECRET,
             {
                 expiresIn:process.env.ACCESS_TOKEN_EXPIRY
             }
         )
-        // console.log(accessToken);
         const refreshToken = jwt.sign(
             {
                 student_id: student.student_id,
@@ -159,6 +156,7 @@ const studentLogout = asyncHandler(async(req,res)=>{
 })
 
 const addProfilePicture = asyncHandler(async(req,res)=>{
+    console.log(req.file);
     const profileImage = req.file?.path
     if(!profileImage){
         throw new ApiError(400, "No image selected")
@@ -173,7 +171,7 @@ const addProfilePicture = asyncHandler(async(req,res)=>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200, student,"Image Uploaded successfully"))
+    .json(new ApiResponse(200, {},"Image Uploaded successfully"))
 })
 
 const updateProfilePicture = asyncHandler(async (req,res) => {
@@ -201,7 +199,7 @@ const updateProfilePicture = asyncHandler(async (req,res) => {
 
     return res
     .status(200)
-    .json(new ApiResponse(200,student,"profile picture updated"))
+    .json(new ApiResponse(200,{},"profile picture updated"))
 
 })
 

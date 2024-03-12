@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom'
 function AdminDashboard() {
     return (
         <>
-            <div className='flex flex-row bg-neutral-200 h-screen overflow-hidden'>
+            <div className='flex flex-row bg-neutral-300 h-screen overflow-hidden'>
                 <div><Sidebar/></div>
                 <div className='flex-1'>
                     <Header />

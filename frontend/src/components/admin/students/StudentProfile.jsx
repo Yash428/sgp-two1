@@ -32,16 +32,6 @@ function AddStudent() {
         })
     },[])
 
-    // const update =  (e)=>{
-    //     //e.preventDefault()
-    //     const {name,value} = e.target
-    //     console.log(name+" "+value);
-    //     setStudent(prev=>({
-    //         ...prev,
-    //         [name]: value
-    //     }))
-    //     console.log(student);
-    // }
     return (
         <div className=' '>
             <div className='bg-neutral-100 h-12 mt-4 -px-4 rounded-lg flex justify-center items-center p-4' >
@@ -59,6 +49,10 @@ function AddStudent() {
                         <div className='flex flex-row w-1/2 p-2 pb-1 pt-1'>
                             <span className='p-2 w-1/4'>Name: </span>
                             <Input className='h-8  w-80' name="student_name" value={student.student_name} readOnly={true} required />
+                        </div>
+                        <div className='flex flex-row w-1/2 p-2 pb-1 pt-1'>
+                            <span className='p-2 w-1/4'>Id: </span>
+                            <Input className='h-8  w-80' name="student_name" value={student.student_id} readOnly={true} required />
                         </div>
                         <div className='flex flex-row w-1/2 p-2 pb-1 pt-1'>
                             <span className='p-2 w-1/4' >Mobile No. : </span>

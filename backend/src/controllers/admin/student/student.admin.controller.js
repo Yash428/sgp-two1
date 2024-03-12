@@ -93,10 +93,24 @@ const addStudent = asyncHandler(async(req,res)=>{
     )
 })
 
+const totalStudentCount = asyncHandler(async(req,res)=>{
+    const sequelize = await connectDb()
+    const studentCount = await sequelize.query("select count(student_id) as studentCount from student",{
+        type: QueryTypes.SELECT
+    })
+    console.log(studentCount);
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,studentCount,"Student count")
+    )
+})
+
 export{
     addStudent,
     getClassNames,
     getStudentByClass,
     getStudentDetails,
-    deleteStudent
+    deleteStudent,
+    totalStudentCount
 }

@@ -4,6 +4,7 @@ import {ApiError,ApiResponse} from "../utils/index.js"
 import jwt from 'jsonwebtoken'
 import {Teacher} from "../models/teacher.models.js"
 import { Admin } from "../models/admin.models.js"
+import { Parent } from "../models/parent.models.js"
 export const verifyStudentJWT = asyncHandler(async(req,_,next)=>{
     try {
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
@@ -48,7 +49,6 @@ export const verifyTeacherJWT = asyncHandler(async(req,_,next)=>{
 export const verfyAdminJWT = asyncHandler(async(req,_,next)=>{
     try {
         const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
-        console.log(token);
         if(!token){
             throw new ApiError(401, "unauthorized request")
         }
@@ -61,5 +61,53 @@ export const verfyAdminJWT = asyncHandler(async(req,_,next)=>{
         next()
     } catch (error) {
         throw new ApiError(401,error?.message || "Invalid access token")
+    }
+})
+
+export const verifyJWT = asyncHandler(async(req,_,next)=>{
+    try {
+        const role = req.cookies?.role|| req.header("role")?.replace("Bearer ","");
+        const token  = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
+        if(!token || !role){
+            throw new ApiError(401, "unauthorized request")
+        }
+        const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+        if (role === "admin"){
+            const admin = await Admin.findOne({where: {admin_id: decodedToken?.admin_id}})
+            if(!admin){
+                throw new ApiError(401, "invalid user")
+            }
+            req.user = admin
+            next()
+        }
+        else if (role === "teacher"){
+            const teacher = await Teacher.findOne({where: {teacher_id: decodedToken?.teacher_id}})
+            if(!teacher){
+                throw new ApiError(401, "invalid user")
+            }
+            req.user = teacher
+            next()
+        }
+        else if(role === "student"){
+            const student = await Student.findOne({where: {student_id: decodedToken?.student_id}})
+            if(!student){
+                throw new ApiError(401, "invalid user")
+            }
+            req.user = student
+            next()
+        }
+        else if(role === "parent"){
+            const parent = await Parent.findOne({where: {parent_id: decodedToken?.parent_id}})
+            if(!parent){
+                throw new ApiError(401, "invalid user")
+            }
+            req.user = parent
+            next()
+        }
+        else{
+            throw new ApiError(401, "invalid user")
+        }
+    } catch (error) {
+        console.log(error);
     }
 })

@@ -262,5 +262,12 @@ export const ADMIN_DASHBOARD_STUDENT_LINKS = [
         title: "Student Performance",
         icon: <PiExam className="w-6 h-6"/>,
         path: "/admin/students/performance",
+    },
+    {
+        key: "timeTable",
+        label: "Time Table",
+        title: "Time Table",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/admin/students/timeTable",
     }
 ]
