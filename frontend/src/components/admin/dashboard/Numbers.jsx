@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { PiStudent } from "react-icons/pi";
-import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaChalkboardTeacher,FaRupeeSign } from "react-icons/fa";
+
 import axios from 'axios';
 
 import DonutChart from '../../../charts/DonutChart';
@@ -58,10 +59,10 @@ function Numbers() {
     },[])
     
     return (
-        <div className='flex flex-col w-full'>
-            <div className='flex flex-col w-1/2'>
-            <div className='flex flex-row w-full'>
-                <div className='py-2 w-1/3 flex flex-row px-4 m-2 bg-neutral-100 rounded-lg '>
+        <div className='flex flex-col w-full h-screen'>
+            
+            <div className='flex flex-row h-1/6 w-full'>
+                <div className='py-2 w-1/3  flex flex-row px-4 m-2 bg-neutral-100 rounded-lg '>
                     <div className='h-full w-12 flex justify-center items-center text-3xl'>
                         <PiStudent />
                     </div>
@@ -78,41 +79,34 @@ function Numbers() {
                             <div>{teacherNo}</div>
                             <div>Teachers</div>
                         </div>
+                </div>
+                <div className='py-2 w-1/3 flex flex-row px-4 m-2 bg-neutral-100 rounded-lg'>
+                    <div className='h-full w-12 flex justify-center items-center text-3xl'>
+                        <FaRupeeSign />
                     </div>
-                
-            </div>
-        </div>
-            <div className='flex flex-row'>
-            <div className='flex flex-col w-1/3  items-center bg-neutral-100 m-2 rounded-lg'>
-                <div>
-                    <DonutChart data={studentData} width={300} height={300}  />
-                </div>
-                <div>
-                    Student Distribution by Gender
+                        <div className='flex text-lg flex-col justify-center'> 
+                            <div>{teacherNo}</div>
+                            <div>Fees collection</div>
+                        </div>
                 </div>
             </div>
-            <div className='flex flex-col w-1/3  items-center bg-neutral-100 m-2 rounded-lg'>
+            <div className='bg-neutral-100 m-2 flex flex-col rounded-lg max-h-screen  '>
+                <div className='p-2 flex items-start justify-center text-xl'>Latest Transactions</div>
                 <div>
-                    <DonutChart data={studentData} width={300} height={300}  />
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>User Id</td>
+                                <td>Name</td>
+                                <td>Type</td>
+                                <td>Amount</td>
+                                <td>Date</td>
+                                <td>Payment Type</td>
+                            </tr>
+                        </thead>
+                        <tbody className='overflow-y-scroll'></tbody>
+                    </table>
                 </div>
-                <div>
-                    Sudent Distribution by Attendance
-                </div>
-            </div>
-            {/* <div className='flex flex-col w-1/3  items-center bg-neutral-100 m-2 rounded-lg'>
-                <div>
-                    <DonutChart data={studentData} width={300} height={300}  />
-                </div>
-                <div>
-                    <select name="student_gender" onChange={e=>setCategory(e.target.value)} value={category} className='h-10 p-2 rounded-lg w-80 bg-neutral-100'>
-                        <option value="">Select</option>
-                        <option value="gender">Student Distribution by Gender</option>
-                        <option value="Attendance">Student Distribution by Attendance</option>
-                        <option value="class">Student Distribution by Class</option>
-                    </select>
-                    <Button type='submit' onClick={handleSubmit} >Submit</Button>
-                </div>
-            </div> */}
             </div>
         </div>
         

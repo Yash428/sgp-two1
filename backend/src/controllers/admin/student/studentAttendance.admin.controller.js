@@ -1,22 +1,13 @@
 import {QueryTypes, Sequelize, json} from "sequelize"
 import { ApiError, ApiResponse } from "../../../utils/index.js"
 import { asyncHandler } from "../../../utils/asyncHandler.js"
-import { getStudentDetails,getStudentByClass } from "./student.admin.controller.js"
 import { connectDb } from "../../../db/index.js"
-import generatePDF from "react-to-pdf"
 import { generateTablePdf } from "../../../pdf/index.js"
 import path from 'path'
-import fs from 'fs'
-import {getExcel} from "../../../Excel/index.js"
-
-
 
 const studentAttendanceSummary = async({studentId}) => {
-
-    let attList = []
     let total= await getTotalCount(studentId);
     let present = await getPresentCount(studentId);
-    let subjectId = "Overall"
     let overallAttendance = (total===0)?0:Math.round((present*100)/total)
     return overallAttendance
 }
