@@ -271,3 +271,42 @@ export const ADMIN_DASHBOARD_STUDENT_LINKS = [
         path: "/admin/students/timeTable",
     }
 ]
+export const PARENT_DASHBOARD_SIDEBAR_LINKS = [
+    {
+        key: "studentDashboard",
+        title: "Student Dashboard",
+        label: "Dashboard",
+        icon: <PiStudent className="w-6 h-6"/>,
+        path: "/parent",
+    },
+    {
+        key: "studentAttendance",
+        label: "Attendance",
+        title: "Student Attendance",
+        icon: <PiExam className="w-6 h-6"/>,
+        path: "/parent/attendance",
+    },
+    {
+        key: "exam",
+        label: "Exam",
+        title: "Exam",
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/parent/exam",
+    },
+    {
+        key: 'leave',
+        label: 'Leave Application',
+        title: 'Leave',
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/parent/leave",
+    }
+]
+export const PARENT_DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
+    {
+        key: "settings",
+        label: "Settings",
+        title: "Settings",
+        icon: <SlSettings className="w-6 h-6"/>,
+        path: "/pardent/settings",
+    }
+]

@@ -40,6 +40,7 @@ import Numbers from './components/admin/dashboard/Numbers.jsx'
 import TimeTableMenu from './components/admin/students/TimeTableMenu.jsx'
 import ViewTimeTable from './components/admin/students/timetable/ViewTimeTable.jsx'
 import ExamPage from './components/student/exam/ExamPage.jsx'
+import ParentDashBoard from './pages/parent/ParentDashBoard.jsx'
 
 const router = createBrowserRouter([
   {
@@ -289,6 +290,28 @@ const router = createBrowserRouter([
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        path: 'parent/',
+        element: (
+          <Auth authentication>
+            <ParentDashBoard />
+          </Auth>
+        ),
+        children: [
+          {
+            path: "attendance",
+          },
+          {
+            path:"exam"
+          },
+          {
+            path: "leave"
+          },
+          {
+            path: "settings"
           }
         ]
       }
