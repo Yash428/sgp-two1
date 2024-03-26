@@ -41,6 +41,16 @@ import TimeTableMenu from './components/admin/students/TimeTableMenu.jsx'
 import ViewTimeTable from './components/admin/students/timetable/ViewTimeTable.jsx'
 import ExamPage from './components/student/exam/ExamPage.jsx'
 import ParentDashBoard from './pages/parent/ParentDashBoard.jsx'
+import ParentTimeTable from './components/parent/ParentTimeTable.jsx'
+import ParentAttendance from './components/parent/ParentAttendance.jsx'
+import StudentLeaveApplication from './components/student/LeaveApplication.jsx'
+import AddApplication from './components/student/leave/AddApplication.jsx'
+import PendingApplication from './components/student/leave/PendingApplication.jsx'
+import ApprovedApplication from './components/student/leave/ApprovedApplication.jsx'
+import  TeacherStudentLeaveApplications from './components/teacher/students/LeaveApplications.jsx'
+import PendingStudentLeaves from './components/teacher/students/leaves/PendingStudentLeaves.jsx'
+import ViewStudentLeaveApp from './components/teacher/students/leaves/viewStudentLeaveApp.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -127,6 +137,46 @@ const router = createBrowserRouter([
                 )
               }
             ]
+          },
+          {
+            path: 'leave',
+            element: (
+              <Auth authentication>
+                <StudentLeaveApplication />
+              </Auth>
+            ),
+            children: [
+              {
+                path: '',
+              },
+              {
+                path: 'add',
+                element: (
+                  <Auth authentication >
+                    <AddApplication />
+                  </Auth>
+                )
+              },
+              {
+                path: 'pending',
+                element: (
+                  <Auth authentication >
+                    <PendingApplication />
+                  </Auth>
+                )
+              },
+              {
+                path: 'approved',
+                element: (
+                  <Auth authentication >
+                    <ApprovedApplication />
+                  </Auth>
+                )
+              },
+              {
+                path: 'rejected'
+              }
+            ]
           }
         ]
       },
@@ -199,6 +249,33 @@ const router = createBrowserRouter([
                     <StudentPassword />
                   </Auth>
                 )
+              },
+              {
+                path: 'leaveApplications/',
+                element: (
+                  <Auth authentication>
+                    <TeacherStudentLeaveApplications />
+                  </Auth>
+                ),
+                children: [
+                  {
+                    path: 'pending',
+                    element: (
+                      <Auth authentication>
+                        <PendingStudentLeaves />
+                      </Auth>
+                    ),
+                  },
+                  {
+                    path: 'view/:sl_id',
+                    element: (
+                      <Auth authentication>
+                        <ViewStudentLeaveApp />
+                      </Auth>
+                    )
+                  },
+                  {},{}
+                ]
               }
             ]
           }
@@ -302,7 +379,20 @@ const router = createBrowserRouter([
         ),
         children: [
           {
+            path: '',
+            element:(
+              <Auth authentication>
+                <ParentTimeTable />
+              </Auth>
+            )
+          },
+          {
             path: "attendance",
+            element: (
+              <Auth authentication>
+                <ParentAttendance />
+              </Auth>
+            )
           },
           {
             path:"exam"

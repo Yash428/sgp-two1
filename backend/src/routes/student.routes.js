@@ -5,6 +5,7 @@ import { studentAttendanceSummary } from "../controllers/student/student.attenda
 import {verifyStudentJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
 import { printHello } from "../controllers/student/student.controller.js";
+import { acceptedApplications, addLeaveApplication, pendingApplications, rejectedApplications } from "../controllers/student/student.leaves.controller.js";
 const router = Router()
 
 router.route("/login").post(loginStudent)
@@ -16,5 +17,9 @@ router.route("/getAttendance").post(verifyStudentJWT,studentAttendanceSummary)
 router.route("/logout").post(verifyStudentJWT,studentLogout)
 router.route("/addProfilePicture").post(verifyStudentJWT,upload.single("profileImage"),addProfilePicture)
 router.route("/updateProfilePicture").post(verifyStudentJWT,upload.single("profileImage"),updateProfilePicture)
+router.route("/addLeave").post(addLeaveApplication)
+router.route("/pendingLeaves").post(pendingApplications)
+router.route("/rejectedLeaves").post(rejectedApplications)
+router.route("/acceptedLeaves").post(acceptedApplications)
 router.route("/").get(printHello)
 export default router

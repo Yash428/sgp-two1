@@ -2,6 +2,7 @@ import { PiStudent, PiExam, PiBank } from "react-icons/pi"
 import { SlSettings } from "react-icons/sl"
 import { HiOutlineLogout } from "react-icons/hi"
 import { CgMoreVerticalR } from "react-icons/cg";
+import { MdOutlineEditCalendar } from "react-icons/md";
 export const STUDENT_DASHBOARD_SIDEBAR_LINKS = [
     {
         key: "studentDashboard",
@@ -23,6 +24,13 @@ export const STUDENT_DASHBOARD_SIDEBAR_LINKS = [
         title: "Exam",
         icon: <PiBank className="w-6 h-6"/>,
         path: "/student/exam",
+    },
+    {
+        key: "leave",
+        label: "Leave Application",
+        title: "Leave",
+        icon: <MdOutlineEditCalendar className="w-6 h-6"/>,
+        path: "/student/leave",
     },
     {
         key: "more",

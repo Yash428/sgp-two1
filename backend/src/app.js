@@ -19,10 +19,12 @@ import studentRouter from "./routes/student.routes.js"
 import teacherRouter from "./routes/teacher.routes.js"
 import adminRouter from "./routes/admin.routes.js"
 import router from "./routes/common.routes.js"
+import parentRouter from "./routes/parent.routes.js"
 //declarations
 app.use("/api/v1/students",studentRouter)
 app.use("/api/v1/teachers",teacherRouter)
 app.use("/api/v1/admin",adminRouter)
 app.use("/api/v1",router)
+app.use("/api/v1/parent",parentRouter)
 
 export {app}

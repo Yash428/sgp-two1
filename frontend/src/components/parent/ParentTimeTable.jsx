@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 function ParentTimeTable() {
-    const studentClass = useSelector((state)=>state.auth.data.student_class)
+    const parentId = useSelector((state)=>state.auth.data.parent_id)
     const [timeTableData,setTimeTableData] = useState([])
     
     useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/students/timetable',{studentClass: studentClass},{
+        axios.post('http://localhost:8002/api/v1/parent/timetable',{parentId},{
             headers:{
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -17,7 +17,7 @@ function ParentTimeTable() {
         })
         .then(result=>{
             console.log(result.data.data);
-            setTimeTableData( prev=> result.data.data)
+            setTimeTableData(prev=> result.data.data)
         })
         .catch(error=>{
             console.log(error);
