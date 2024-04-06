@@ -27,13 +27,7 @@ const addLeaveApplication = asyncHandler(async(req,res)=>{
     if(!result){
         throw new ApiError(400, "Student not found")
     }
-    const addForApproval = await sequelize.query("insert into s_leave_approval(sl_id) values(?)",{
-        replacements:[result[0]],
-        type:QueryTypes.INSERT
-    })
-    if(!addForApproval){
-        throw new ApiError(400, "not added for approval")
-    }
+    
     return res
     .status(200)
     .json(

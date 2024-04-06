@@ -60,6 +60,38 @@ function ViewStudentLeaveApp() {
             })
         })
     }
+    const rejectIt = (e)=>{
+        e.preventDefault()
+        axios.post("http://localhost:8002/api/v1/teachers/students/rejectLeave",{
+            sl_id
+        },{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+                "role": `Bearer ${localStorage.getItem('role')}`
+            }
+        }).then(Response=>Response.data)
+        .then(Response =>{
+            console.log(Response.data);
+            Swal.fire({
+                icon:'success',
+                title: 'Leave Reject',
+                text: 'You rejected the application',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+        .catch(err=>{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+    }
 return (
     <div className='flex flex-col h-96 m-2 mt-0 bg-neutral-100  rounded-lg p-2 '>
         <div className='flex text-2xl p-2 items-center justify-center'>Add Application</div>
@@ -90,6 +122,9 @@ return (
         <div className='flex flex-row justify-end'>
             <Button onClick={acceptIt} type='submit' >
                 Accept
+            </Button>
+            <Button onClick={rejectIt} type='submit' >
+                Reject
             </Button>
         </div>
     </div>

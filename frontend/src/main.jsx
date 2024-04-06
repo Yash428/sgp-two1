@@ -50,6 +50,8 @@ import ApprovedApplication from './components/student/leave/ApprovedApplication.
 import  TeacherStudentLeaveApplications from './components/teacher/students/LeaveApplications.jsx'
 import PendingStudentLeaves from './components/teacher/students/leaves/PendingStudentLeaves.jsx'
 import ViewStudentLeaveApp from './components/teacher/students/leaves/viewStudentLeaveApp.jsx'
+import ApprovedStudentLeaveApplication from './components/teacher/students/leaves/ApprovedStudentLeaveApplication.jsx'
+import RejectedStudentLeaveApplication from './components/teacher/students/leaves/RejectedStudentLeaveApplication.jsx'
 
 
 const router = createBrowserRouter([
@@ -274,7 +276,21 @@ const router = createBrowserRouter([
                       </Auth>
                     )
                   },
-                  {},{}
+                  {
+                    path: 'approved',
+                    element: (
+                      <Auth authentication>
+                        <ApprovedStudentLeaveApplication />
+                      </Auth>
+                    )
+                  },{
+                    path:'rejected',
+                    element: (
+                      <Auth authentication>
+                        <RejectedStudentLeaveApplication />
+                      </Auth>
+                    )
+                  }
                 ]
               }
             ]

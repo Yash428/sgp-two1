@@ -80,13 +80,6 @@ export const TEACHER_DASHBOARD_SIDEBAR_LINKS = [
         path: "/teacher/exam"
     },
     {
-        key: 'course',
-        label: 'Course',
-        title: 'Course',
-        icon: <PiBank className="w-6 h-6"/>,
-        path: "/teacher/course"
-    },
-    {
         key: "accounts",
         label: "Accounts",
         title: "Accounts",
@@ -218,13 +211,6 @@ export const TEACHER_DASHBOARD_STUDENT_LINKS = [
         title: "Student Passwords",
         icon: <PiExam className="w-6 h-6"/>,
         path: "/teacher/students/studentPasswords",
-    },
-    {
-        key: "report",
-        label: "Student Report",
-        title: "Download Student Report",
-        icon: <PiExam className="w-6 h-6"/>,
-        path: "/teacher/studentReport",
     }
 ]
 

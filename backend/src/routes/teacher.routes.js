@@ -5,7 +5,7 @@ import { getStudentDetails, getStudentListByClass, getStudentPasswordByClass } f
 import { getClass } from "../controllers/teacher/classControllers/class.controller.js";
 import { verifyTeacherJWT } from "../middlewares/auth.middleware.js";
 import { addAttendceEntry, getAllPendingAttendance, getStudentsByAttPId, lectureDataByAttPId,getStudentIdsByAttPId } from "../controllers/teacher/studentAttendance.controller.js";
-import { approveApplication, getLeaveDataBySLId, getPendingStudentApplication } from "../controllers/teacher/classControllers/studentLeaves.controller.js";
+import { approveApplication, approvedStudentApplications, getAllRejectedApplications, getLeaveDataBySLId, getPendingStudentApplication, rejectLeaveApplication } from "../controllers/teacher/classControllers/studentLeaves.controller.js";
 const router  = Router()
 
 router.route("/login").post(loginTeacher)
@@ -25,4 +25,7 @@ router.route("/students/getStudentPassword").post(verifyTeacherJWT,getStudentPas
 router.route("/students/getPendingLeaves").post(getPendingStudentApplication)
 router.route("/students/getLeaveBysl").post(getLeaveDataBySLId)
 router.route("/students/approveLeave").post(approveApplication)
+router.route("/students/allAproved").post(approvedStudentApplications)
+router.route("/students/rejectLeave").post(rejectLeaveApplication)
+router.route("/students/allRejected").post(getAllRejectedApplications)
 export default router
