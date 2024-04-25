@@ -304,3 +304,19 @@ export const PARENT_DASHBOARD_SIDEBAR_BOTTOM_LINKS = [
         path: "/pardent/settings",
     }
 ]
+export const TEACHER_DASHBOARD_PARENT_LINKS = [
+    {
+        key: 'parentDetails',
+        label: 'Parent Details',
+        title: 'Parent Details',
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/teacher/parents/parentDetails",
+    },
+    {
+        key: 'approvals',
+        label: 'Approvals',
+        title: 'Approvals',
+        icon: <PiBank className="w-6 h-6"/>,
+        path: "/teacher/parents/approvals",
+    }
+]

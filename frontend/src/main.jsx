@@ -2,15 +2,24 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import{Route, RouterProvider, createBrowserRouter, createRoutesFromElements} from "react-router-dom"
+import{RouterProvider, createBrowserRouter} from "react-router-dom"
 import Login from './pages/Login.jsx'
-
-// import PrintAllStudents from './components/PrintAllStudents.jsx'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { persistedStore, store } from './store/store.js'
 import  {Auth} from './components'
-
-import { TableOne } from './components/TableOne.jsx'
+import {
+    LeaveApplications as TeacherStudentLeaveApplications,
+    StudentComponent,
+    StudentPassword,
+    StudentProfileView,
+    StudentTeacherList,
+    Attendance,
+    FillAttendance,
+    ApprovedStudentLeaveApplication,
+    PendingStudentLeaves,
+    RejectedStudentLeaveApplication,
+    ViewStudentLeaveApp
+} from './components/teacher/students/index.js'
 import { PersistGate } from 'redux-persist/integration/react'
 import persistStore from 'redux-persist/es/persistStore'
 import StudentDashBoard from './pages/student/studentDashBoard.jsx'
@@ -21,19 +30,13 @@ import SetPassword from './components/student/settings/SetPassword.jsx'
 import TeacherTimeTable from './components/teacher/TeacherTimeTable.jsx'
 import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import StudentPage from './pages/teacher/student/StudentPage.jsx'
-import Attendance from './components/teacher/students/Attendance.jsx'
-import StudentComponent from './components/teacher/students/StudentComponent.jsx'
-import FillAttendance from './components/teacher/students/FillAttendance.jsx'
 import AdminStudentPage from './pages/admin/student/AdminStudentPage.jsx' 
 import AdminStudentComponent from './components/admin/students/AdminStudentComponent.jsx'
 import AddStudent from './components/admin/students/AddStudent.jsx'
 import StudentList from './components/admin/students/StudentList.jsx'
 import StudentProfile from './components/admin/students/StudentProfile.jsx'
-import StudentTeacherList from './components/teacher/students/StudentTeacherList.jsx'
-import StudentProfileView from './components/teacher/students/StudentProfileView.jsx'
 import StudentAttendanceReport from './components/admin/students/StudentAttendanceReport.jsx'
 import Error from './components/alerts/Error.jsx'
-import StudentPassword from './components/teacher/students/StudentPassword.jsx'
 import More from './components/student/more/more.jsx'
 import AddProfilePicture from './components/student/more/AddProfilePicture.jsx'
 import Numbers from './components/admin/dashboard/Numbers.jsx'
@@ -47,11 +50,8 @@ import StudentLeaveApplication from './components/student/LeaveApplication.jsx'
 import AddApplication from './components/student/leave/AddApplication.jsx'
 import PendingApplication from './components/student/leave/PendingApplication.jsx'
 import ApprovedApplication from './components/student/leave/ApprovedApplication.jsx'
-import  TeacherStudentLeaveApplications from './components/teacher/students/LeaveApplications.jsx'
-import PendingStudentLeaves from './components/teacher/students/leaves/PendingStudentLeaves.jsx'
-import ViewStudentLeaveApp from './components/teacher/students/leaves/viewStudentLeaveApp.jsx'
-import ApprovedStudentLeaveApplication from './components/teacher/students/leaves/ApprovedStudentLeaveApplication.jsx'
-import RejectedStudentLeaveApplication from './components/teacher/students/leaves/RejectedStudentLeaveApplication.jsx'
+import ParentPage from './pages/teacher/parent/ParentPage.jsx'
+import ParentComponent from './components/teacher/parents/ParentComponent.jsx'
 
 
 const router = createBrowserRouter([
@@ -61,7 +61,6 @@ const router = createBrowserRouter([
       <Auth authentication>
         <App />
       </Auth>
-      
     ),
     children :[
       {
@@ -292,6 +291,23 @@ const router = createBrowserRouter([
                     )
                   }
                 ]
+              }
+            ]
+          },
+          {
+            path: "parents",
+            element: (
+              <Auth authentication>
+                <ParentPage />
+              </Auth>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                <Auth authentication>
+                  <ParentComponent />
+                </Auth>)
               }
             ]
           }

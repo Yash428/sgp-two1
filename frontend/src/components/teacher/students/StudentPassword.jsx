@@ -2,11 +2,13 @@ import axios from 'axios'
 import React,{useEffect,useState} from 'react'
 import Button from '../../Button'
 import Input from '../../Input'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 function StudentPassword() {
     const [studentData,setStudentData] = useState([])
     const [studentClassList,setStudentClassList] = useState([])
     const [studentClass,setStudentClass] = useState('')
-
+    const [studentPassword,setStudentPassword] = useState('')
     useEffect(()=>{
         axios.post('http://localhost:8002/api/v1/teachers/students/class',{},{
             headers:{
@@ -22,7 +24,7 @@ function StudentPassword() {
         .catch((error)=>{
             console.log(error);
         })
-    },[])
+    },[studentPassword])
 
     const onSubmit = (e)=>{
         e.preventDefault()
@@ -41,6 +43,56 @@ function StudentPassword() {
             console.log(error);
         })
     }
+    const changeVisibility = (e,id)=>{
+        setStudentData(studentData.map(student=>(
+            student.student_id===id?{...student,isShow:!student.isShow}:student
+        )))
+    }
+    const EditingStatus = (e,id)=>{
+        setStudentData(studentData.map(student=>(
+            student.student_id===id?{...student,isEditing:!student.isEditing}:student
+        )))
+    }
+    const editStudentPassword = (e,id)=>{
+        e.preventDefault()
+        console.log('clicked');
+        axios.post('http://localhost:8002/api/v1/teachers/students/setPassword',{
+            student_id: id,
+            student_password: studentPassword
+        },{
+            headers:{
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+        .then(result=>result.data)
+        .then(result=>{
+            console.log(result.data)
+            Swal.fire({
+                icon:'success',
+                title: 'Done',
+                text: 'Password changed Successfully',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            
+            setStudentData(studentData.map(student=>{
+                return student.student_id===id?{...student,student_password:studentPassword,isEditing:false,isShow:false}:student
+            }))
+            setStudentPassword('')
+        })
+        .catch(err=>{
+            console.log(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+            })
+        })
+    }
+
 return (
     <div className='h-screen bg-neutral-200'>
         <div className=' h-16 bg-neutral-100 m-4 my-2 rounded-lg min-w-96 flex items-center sticky'>
@@ -81,6 +133,9 @@ return (
                                 >
                                 Password
                                 </th>
+                                <th className='w-1/4'>
+                                    {' '}
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="divide-y flex flex-col divide-gray-200 w-full items-center justify-center bg-white overflow-y-scroll">
@@ -96,7 +151,11 @@ return (
                                         <div className="text-sm text-center text-gray-900 "> {item.student_name} </div>
                                     </td>
                                     <td className="whitespace-nowrap flex flex-row items-center justify-center text-center text-sm font-medium w-1/3">
-                                        <Input value={item.student_password} readOnly className='w-full' />
+                                    {item.isEditing? <Input value={studentPassword} onChange={e=>setStudentPassword(e.target.value)} className='w-full' /> :item.isShow? <Input value={item.student_password} readOnly={true} className='w-full' /> :<Input value={item.student_password} readOnly={true} type='password' className='w-full' />}
+                                    </td>
+                                    <td className='w-1/4 flex flex-row'>
+                                        <Button bgColor='bg-green-400' onClick={(e)=>changeVisibility(e,item.student_id)} className=' m-2'>{item.isShow?"Hide":"Show"}</Button>
+                                        {item.isEditing? <Button onClick={(e)=>editStudentPassword(e,item.student_id)} className='m-2' bgColor='bg-purple-400' >Submit</Button> :<Button onClick={e=>{EditingStatus(e,item.student_id);setStudentPassword(item.student_password)}} className='m-2' >Edit</Button>}
                                     </td>
                                 </tr>
                                 ))

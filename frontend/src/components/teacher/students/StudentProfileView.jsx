@@ -39,7 +39,7 @@ function StudentProfileView() {
     },[])
 
     return (
-        <div className=' '>
+        <div className='h-screen'>
             <div className='bg-neutral-100 h-12 mt-4 -px-4 rounded-lg flex justify-center items-center p-4' >
                 <span className='p-4 text-2xl '>Student Profile</span>
             </div>

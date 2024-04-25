@@ -6,9 +6,24 @@ import {QueryTypes} from "sequelize"
 const getStudentPasswordByClass = asyncHandler(async(req,res)=>{
     const {studentClass} = req.body
     const sequelize = await connectDb()
-    const result = await sequelize.query("select s.student_id,s.student_password,s.student_name from student as s inner join teacher as t on t.teacher_class = s.student_class and s.student_class = ?;",{
+    const result = await sequelize.query("select s.student_id,s.student_password,s.student_name,0 as isEditing,0 as isShow from student as s inner join teacher as t on t.teacher_class = s.student_class and s.student_class = ?;",{
         replacements:[studentClass],
         type: QueryTypes.SELECT
+    })
+    console.log(result);
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,result,"Student password list")
+    )
+})
+
+const editStudentPassword = asyncHandler(async(req,res)=>{
+    const {student_id,student_password} = req.body
+    const sequelize = await connectDb()
+    const result = await sequelize.query("update student set student_password=? where student_id=?",{
+        replacements:[student_password,student_id],
+        type: QueryTypes.UPDATE
     })
     console.log(result);
     return res
@@ -53,5 +68,6 @@ const getStudentListByClass = asyncHandler(async(req,res)=>{
 export{
     getStudentPasswordByClass,
     getStudentListByClass,
-    getStudentDetails
+    getStudentDetails,
+    editStudentPassword
 }

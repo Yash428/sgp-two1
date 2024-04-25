@@ -1,62 +1,11 @@
-import axios from 'axios'
-import React, { useEffect,useState, useId } from 'react'
-import Button from '../../Button'
-import { IoEye } from "react-icons/io5";
-import { MdDelete, MdEdit} from "react-icons/md";
-import { Link} from 'react-router-dom';
-import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
-import * as XLSX from 'xlsx';
-import { FaFilePdf } from "react-icons/fa6";
-import { usePDF } from 'react-to-pdf'
+import React from 'react'
+import {useSelector} from 'react-redux'
 
-function StudentTeacherList() {
-    const [studentList,setStudentList] = useState([])
-    const [studentClass,setStudentClass] = useState('')
-    const [studentClassList,setStudentClassList] = useState([])
-    const [isSelected,setIsSelected] = useState(false)
-    useEffect(()=>{
-        axios.post('http://localhost:8002/api/v1/teachers/students/class',{},{
-            headers:{
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-        .then(result=>{
-            console.log(result.data.data);
-            setStudentClassList(result.data.data)
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-    },[])
-    
-    const onSubmit = (e)=>{
-        e.preventDefault()
-        axios.post('http://localhost:8002/api/v1/teachers/students/studentList',{
-            studentClass
-        },{
-            headers:{
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-        .then(response=>{
-            console.log(response.data.data)
-            setIsSelected(true)
-            console.log(isSelected);
-            setStudentList(response.data.data)
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }
-    
-    
-    const LinkCss= "px-4 py-2 rounded-lg text-white"
-    return (
-        <div className='h-screen bg-neutral-200'>
+function ParentsList() {
+    const teacherClass = useSelector(state=>state.auth.data.teacher_class)
+    const [parentsList,setParentsList] = useState([])
+  return (
+    <div className='h-screen bg-neutral-200'>
         <div className=' h-16 bg-neutral-100 m-4 my-2 rounded-lg min-w-96 flex items-center sticky'>
             <div><span className='px-4 py-2 text-2xl '> Student List </span></div>
             <form onSubmit={onSubmit} className='flex'>
@@ -146,6 +95,7 @@ function StudentTeacherList() {
         </div>
     </div>
     )
+  )
 }
 
-export default StudentTeacherList
+export default ParentsList

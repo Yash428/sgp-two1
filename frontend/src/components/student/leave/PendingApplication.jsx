@@ -47,8 +47,6 @@ function PendingApplication() {
                                     <div className='w-1/6 flex justify-center items-center'>{item.status} </div>
                                     <div className='w-1/5 flex justify-center items-center'>
                                         <div className='mr-1'><Button>View</Button></div>
-                                        <div className='mx-1'><Button  bgColor='bg-green-700'>Edit</Button></div>
-                                        <div className='ml-1'><Button  bgColor='bg-red-700'>Delete</Button></div>
                                     </div>
                                 </div>
                             )

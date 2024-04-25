@@ -1,11 +1,10 @@
 import React from 'react'
 import {Outlet } from 'react-router-dom'
 
-function StudentPage() {
+function ParentPage() {
   return (
     <Outlet />
   )
 }
 
-
-export default StudentPage
+export default ParentPage

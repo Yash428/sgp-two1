@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { loginTeacher, logoutTeacher, updateTeacherPassword } from "../controllers/teacher/teacher.controller.js";
 import{teacherTimeTable} from "../controllers/teacher/teacher.timetable.controller.js"
-import { getStudentDetails, getStudentListByClass, getStudentPasswordByClass } from "../controllers/teacher/editStudentDatabase/studentDB.controller.js";
+import { editStudentPassword, getStudentDetails, getStudentListByClass, getStudentPasswordByClass } from "../controllers/teacher/editStudentDatabase/studentDB.controller.js";
 import { getClass } from "../controllers/teacher/classControllers/class.controller.js";
 import { verifyTeacherJWT } from "../middlewares/auth.middleware.js";
 import { addAttendceEntry, getAllPendingAttendance, getStudentsByAttPId, lectureDataByAttPId,getStudentIdsByAttPId } from "../controllers/teacher/studentAttendance.controller.js";
@@ -28,4 +28,5 @@ router.route("/students/approveLeave").post(approveApplication)
 router.route("/students/allAproved").post(approvedStudentApplications)
 router.route("/students/rejectLeave").post(rejectLeaveApplication)
 router.route("/students/allRejected").post(getAllRejectedApplications)
+router.route("/students/setPassword").post(editStudentPassword)
 export default router

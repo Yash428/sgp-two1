@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom"
+import { TEACHER_DASHBOARD_PARENT_LINKS } from '../../lib/Navigation'
 import React from 'react'
-import { TEACHER_DASHBOARD_STUDENT_LINKS } from '../../lib/Navigation'
-import { Link } from 'react-router-dom'
-function StudentComponent() {
+
+function ParentComponent() {
   return (
     <div className='bg-neutral-300 h-screen w-full'>
         <div className='flex flex-wrap'>
-            {TEACHER_DASHBOARD_STUDENT_LINKS.map((item)=>(
+            {TEACHER_DASHBOARD_PARENT_LINKS.map((item)=>(
                 <SidebarLink key={item.key} item={item} />
             ))}
         </div>
@@ -20,4 +21,5 @@ function SidebarLink({item}){
         </Link>
     )
 }
-export default StudentComponent
+
+export default ParentComponent
