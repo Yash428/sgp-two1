@@ -80,13 +80,6 @@ export const TEACHER_DASHBOARD_SIDEBAR_LINKS = [
         path: "/teacher/exam"
     },
     {
-        key: "accounts",
-        label: "Accounts",
-        title: "Accounts",
-        icon: <PiBank className="w-6 h-6"/>,
-        path: "/teacher/accounts"
-    },
-    {
         key: "more",
         label: "More",
         title: "More",

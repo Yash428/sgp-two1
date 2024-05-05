@@ -6,6 +6,7 @@ import { getClass } from "../controllers/teacher/classControllers/class.controll
 import { verifyTeacherJWT } from "../middlewares/auth.middleware.js";
 import { addAttendceEntry, getAllPendingAttendance, getStudentsByAttPId, lectureDataByAttPId,getStudentIdsByAttPId } from "../controllers/teacher/studentAttendance.controller.js";
 import { approveApplication, approvedStudentApplications, getAllRejectedApplications, getLeaveDataBySLId, getPendingStudentApplication, rejectLeaveApplication } from "../controllers/teacher/classControllers/studentLeaves.controller.js";
+import { getExamTimeTable, getMarkEntryList } from "../controllers/teacher/Exam/exam.controller.js";
 const router  = Router()
 
 router.route("/login").post(loginTeacher)
@@ -29,4 +30,7 @@ router.route("/students/allAproved").post(approvedStudentApplications)
 router.route("/students/rejectLeave").post(rejectLeaveApplication)
 router.route("/students/allRejected").post(getAllRejectedApplications)
 router.route("/students/setPassword").post(editStudentPassword)
+router.route("/exam/getTimeTable").post(getExamTimeTable)
+router.route("/exam/getMarkEntryList").post(getMarkEntryList)
+
 export default router

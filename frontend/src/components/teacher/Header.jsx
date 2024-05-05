@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
-import {currentUser, useUser} from '../../store/authSlice'
+import {currentUser} from '../../store/authSlice'
 
 function Header() {
-  
   const teacherData = useSelector(currentUser)
-  console.log(teacherData);
-  
+
   return (
     <div className=' h-12 px-4 flex justify-between bg-neutral-100 items-center '>
         <div className='text-xl'>Teacher's Dashboard</div>

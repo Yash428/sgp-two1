@@ -3,7 +3,7 @@ import {asyncHandler} from "../../utils/asyncHandler.js"
 import { connectDb } from "../../db/index.js"
 import {QueryTypes, Sequelize} from "sequelize"
 import {Student} from "../../models/student.models.js"
-const getCurrentDate=()=>{
+export const getCurrentDate=()=>{
     const date = new Date()
     const day = date.getDate()
     const month = date.getMonth()+1

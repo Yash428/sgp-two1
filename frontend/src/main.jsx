@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
@@ -39,7 +39,6 @@ import StudentAttendanceReport from './components/admin/students/StudentAttendan
 import Error from './components/alerts/Error.jsx'
 import More from './components/student/more/more.jsx'
 import AddProfilePicture from './components/student/more/AddProfilePicture.jsx'
-import Numbers from './components/admin/dashboard/Numbers.jsx'
 import TimeTableMenu from './components/admin/students/TimeTableMenu.jsx'
 import ViewTimeTable from './components/admin/students/timetable/ViewTimeTable.jsx'
 import ExamPage from './components/student/exam/ExamPage.jsx'
@@ -52,6 +51,19 @@ import PendingApplication from './components/student/leave/PendingApplication.js
 import ApprovedApplication from './components/student/leave/ApprovedApplication.jsx'
 import ParentPage from './pages/teacher/parent/ParentPage.jsx'
 import ParentComponent from './components/teacher/parents/ParentComponent.jsx'
+import RejectedApplication from './components/student/leave/RejectedApplication.jsx'
+import ExamTimeTable from './components/student/exam/ExamTimeTable.jsx'
+import ExamHomePage from './components/student/exam/ExamHomePage.jsx'
+import Result from './components/student/exam/Result.jsx'
+import {
+  AddMarks ,
+  ExamHomePage as TeacherExamHomePage,
+  ExamPage as TeacherExamPage,
+  ViewExamTimeTable as TeacherViewExamTimeTable,
+  ViewMarks as TeacherViewMarks,
+  ViewResult as TeacherViewResult
+} from './components/teacher/exam/index.js'
+
 
 
 const router = createBrowserRouter([
@@ -112,11 +124,34 @@ const router = createBrowserRouter([
             )
           },
           {
-            path:"exam",
+            path:"exam/",
             element: (
             <Auth authentication>
-              <ExamPage />
-            </Auth>)
+              <ExamHomePage />
+            </Auth>),
+            children: [
+              {
+                path:"timeTable",
+                element: (
+                <Auth authentication>
+                  <ExamTimeTable />
+                </Auth>)
+              },
+              {
+                path:"",
+                element: (
+                <Auth authentication>
+                  <ExamPage />
+                </Auth>)
+              },
+              {
+                path: "result",
+                element: (
+                <Auth authentication>
+                  <Result />
+                </Auth>)
+              }
+            ]
           },
           {
             path: 'more/',
@@ -175,7 +210,12 @@ const router = createBrowserRouter([
                 )
               },
               {
-                path: 'rejected'
+                path: 'rejected',
+                element: (
+                  <Auth authentication >
+                    <RejectedApplication />
+                  </Auth>
+                )
               }
             ]
           }
@@ -310,6 +350,56 @@ const router = createBrowserRouter([
                 </Auth>)
               }
             ]
+          },
+          {
+            path: 'exam/',
+            element: (
+              <Auth authentication>
+                <TeacherExamHomePage />
+              </Auth>
+            ),
+            children: [
+              {
+                path: 'timeTable',
+                element: (
+                  <Auth authentication>
+                    <TeacherViewExamTimeTable />
+                  </Auth>
+                )
+              },
+              {
+                path: '',
+                element: (
+                  <Auth authentication>
+                    <TeacherExamPage />
+                  </Auth>
+                )
+              },
+              {
+                path:'result',
+                element: (
+                  <Auth authentication>
+                    <TeacherViewResult />
+                  </Auth>
+                )
+              },
+              {
+                path: 'addMarks',
+                element: (
+                  <Auth authentication>
+                    <AddMarks />
+                  </Auth>
+                )
+              },
+              {
+                path: 'viewMarks',
+                element: (
+                  <Auth authentication>
+                    <TeacherViewMarks />
+                  </Auth>
+                )
+              }
+            ]
           }
         ]
       },
@@ -325,7 +415,7 @@ const router = createBrowserRouter([
             path: '',
             element:(
               <Auth authentication>
-                <Numbers />
+                
               </Auth>
             )
           },

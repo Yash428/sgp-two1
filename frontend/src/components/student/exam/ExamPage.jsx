@@ -1,45 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function ExamPage() {
-  return (
-    <div className='bg-neutral-300 h-screen'>
-        <div className='p-4 bg-neutral-100 rounded-lg text-2xl flex items-center justify-center m-2'>Exam Section</div>
-        <div className='h-full bg-neutral-100 m-2 rounded-lg flex flex-col overflow-y-auto'>
-            <div className='flex flex-row h-1/2 '>
-                <div className='w-1/2 p-4'>
-                <div className='flex items-center justify-center text-xl'> 
-                    Exam Time Table
-                </div>
-                <div>
-
-                </div>
-                </div>
-                <div className='w-1/2 p-4'>
-                    <div className='flex items-center justify-center text-xl'>
-                        Hall Ticket
-                    </div>
-                    <div>
-
-                    </div>
-                </div>
-            </div>
-            <div className='flex flex-row'>
-                <div className='w-1/2 p-4'>
-                    <div className='flex items-center justify-center text-xl'>
-                        Marks
-                    </div>
-                    <div></div>
-                </div>
-                <div className='w-1/2 p-4'>
-                    <div className='flex items-center justify-center text-xl'>
-                        Result
-                    </div>
-                    <div></div>
-                </div>
+    return (
+        <div className=' h-screen bg-neutral-300'>
+            <div className='h-full  m-2 rounded-lg flex flex-row overflow-y-auto'>
+                <Link to={'/student/exam/timeTable'} className='bg-neutral-100 p-6 m-3 rounded-lg w-64 h-40 flex items-center text-center'><span className=' text-xl text-center w-full'>Exam Time Table</span></Link>
+                <Link to={'/student/exam/result'} className='bg-neutral-100 p-6 m-3 rounded-lg w-64 h-40 flex items-center text-center'><span className=' text-xl text-center w-full'>Result</span></Link>
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default ExamPage

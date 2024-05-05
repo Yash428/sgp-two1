@@ -6,6 +6,7 @@ import {verifyStudentJWT} from "../middlewares/auth.middleware.js"
 import {upload} from "../middlewares/multer.middleware.js"
 import { printHello } from "../controllers/student/student.controller.js";
 import { acceptedApplications, addLeaveApplication, pendingApplications, rejectedApplications } from "../controllers/student/student.leaves.controller.js";
+import { getStudentWiseMarks, studentExamTimeTable } from "../controllers/student/student.exam.controller.js";
 const router = Router()
 
 router.route("/login").post(loginStudent)
@@ -21,5 +22,7 @@ router.route("/addLeave").post(addLeaveApplication)
 router.route("/pendingLeaves").post(pendingApplications)
 router.route("/rejectedLeaves").post(rejectedApplications)
 router.route("/acceptedLeaves").post(acceptedApplications)
+router.route("/examTimeTable").post(studentExamTimeTable)
+router.route("/studentMarks").post(getStudentWiseMarks)
 router.route("/").get(printHello)
 export default router
