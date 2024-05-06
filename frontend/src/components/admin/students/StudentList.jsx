@@ -6,8 +6,9 @@ import { MdDelete, MdEdit} from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 import * as XLSX from 'xlsx';
-import { FaFilePdf } from "react-icons/fa6";
-import { usePDF } from 'react-to-pdf'
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function StudentList() {
     const [studentList,setStudentList] = useState([])
@@ -29,7 +30,7 @@ function StudentList() {
         XLSX.utils.book_append_sheet(workBook,workSheet,'Sheet 1')
         XLSX.writeFile(workBook, `${studentClass}List.xlsx`)
     }
-    const { toPDF, targetRef } = usePDF({filename: `${studentClass}List.pdf`});
+    
     useEffect(()=>{
         axios.post('http://localhost:8002/api/v1/admin/student/getClass')
         .then(result=>{
@@ -61,6 +62,11 @@ function StudentList() {
             setStudentList(prev=>(
                 prev.filter(student=>student.student_id!==student_id)
             ))
+            withReactContent(Swal).fire({
+                title: "Deleted",
+                text: `Student Deleted successfully`,
+                icon: "success"
+            })
             navigate('/admin/students/studentDatabase')
             console.log('deleted');
         })
@@ -95,7 +101,7 @@ function StudentList() {
                 ):(null)
             }
         </div>
-        <div ref={targetRef} className='overflow-y-scroll h-5/6'>
+        <div  className='overflow-y-scroll h-5/6'>
             <div className=" overflow-auto min-w-full  py-2 align-middle md:px-6 lg:px-8">
                 <div className="border border-gray-200 md:rounded-lg">
                     <table className="w-full divide-y h-full divide-gray-200">

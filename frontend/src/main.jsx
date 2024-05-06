@@ -63,7 +63,14 @@ import {
   ViewMarks as TeacherViewMarks,
   ViewResult as TeacherViewResult
 } from './components/teacher/exam/index.js'
-
+import {
+  AddExamTimeTable,
+  AdminExamHomePage,
+  AdminExamPage,
+  AdminExamTimeTable,
+  AdminMarks,
+  AdminResults
+} from './components/admin/exam/index.js'
 
 
 const router = createBrowserRouter([
@@ -487,6 +494,57 @@ const router = createBrowserRouter([
                     )
                   }
                 ]
+              }
+            ]
+          },
+          {
+            path: "exam/",
+            element: (
+              <Auth authentication>
+                <AdminExamHomePage/>
+                
+              </Auth>
+            ),
+            children: [
+              {
+                path: "",
+                element: (
+                <Auth authentication>
+                  <AdminExamPage />
+                </Auth>
+                )
+              },
+              {
+                path: 'timeTable',
+                element: (
+                  <Auth authentication>
+                    <AdminExamTimeTable />
+                  </Auth>
+                )
+              },
+              {
+                path:'result',
+                element: (
+                  <Auth authentication>
+                    <AdminResults />
+                  </Auth>
+                )
+              },
+              {
+                path: 'marks',
+                element: (
+                  <Auth authentication>
+                    <AdminMarks />
+                  </Auth>
+                )
+              },
+              {
+                path: 'addMarks',
+                element: (
+                  <Auth authentication>
+                    <AddExamTimeTable />
+                  </Auth>
+                )
               }
             ]
           }

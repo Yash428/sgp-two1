@@ -3,7 +3,7 @@ import { ApiError } from '../../../utils/ApiError.js'
 import { ApiResponse } from '../../../utils/ApiResponse.js'
 import {Student} from '../../../models/student.models.js'
 import { connectDb } from '../../../db/index.js'
-import { QueryTypes } from 'sequelize'
+import { QueryTypes, Transaction } from 'sequelize'
 
 const getClassNames = asyncHandler(async(req,res)=>{
     const sequelize = await connectDb()
@@ -75,22 +75,69 @@ const generateStudentExcel = asyncHandler(async(req,res)=>{
 
 const addStudent = asyncHandler(async(req,res)=>{
     const studentData = req.body
+    const sequelize = await connectDb()
+    const t = await sequelize.transaction()
     console.log(studentData);
     if(!studentData){
         throw new ApiError(404,"Student not found")
     }
-    const sequelize = await connectDb()
-    const sClass = studentData.student_class.charAt(0)
-    const student = await sequelize.query("select student_id from student where student_class like ? order by student_id desc limit  1",{
-        type: QueryTypes.SELECT,
-        replacements: [sClass]
-    })
-    console.log(student);
-    return res
-    .status(200)
-    .json(
-        new ApiResponse(200, studentData,"Student successfully added")
-    )
+
+    try {
+        let sClass = studentData.student_class.charAt(0)
+        sClass = sClass + '%'
+        const student = await sequelize.query("select student_id from student where student_class like ? order by student_id desc limit  1",{
+            type: QueryTypes.SELECT,
+            replacements: [sClass],
+            transaction: t
+        })
+        let newStudentId = student[0].student_id
+        newStudentId = newStudentId.replace('S','')
+        newStudentId = parseInt(newStudentId)
+        newStudentId = newStudentId+1
+        newStudentId = 'S'+newStudentId
+        console.log(newStudentId);
+        const newStudentEmail = newStudentId + '@gmail.com'
+        const query= "INSERT INTO student(student_id,student_name,student_mobile,student_email,student_address,student_gender,student_class,student_dob,student_adhar,student_relegion,student_caste,student_subcaste,student_m_tounge,student_bgroup,student_join_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+        const newStudent = await sequelize.query(query,{
+            replacements: [newStudentId,studentData.student_name,studentData.student_mobile,newStudentEmail,studentData.student_address,studentData.student_gender,studentData.student_class,studentData.student_dob,studentData.student_adhar,studentData.student_relegion,studentData.student_caste,studentData.student_subcaste,studentData.student_m_tounge,studentData.student_bgroup,studentData.student_join_date],
+            type: QueryTypes.INSERT,
+            transaction: t
+        })
+        if(!newStudent){
+            t.rollback()
+            throw new ApiError(400, "Failed to add student")
+        }
+        const pr1 = await sequelize.query("select parent_id from parent order by parent_id desc limit  1",{
+            type: QueryTypes.SELECT,
+            transaction: t
+        })
+        let newParentId = pr1[0].parent_id
+        newParentId = newParentId.replace('P','')
+        newParentId = parseInt(newParentId)
+        newParentId = newParentId+1
+        newParentId = 'P'+newParentId
+        console.log(newParentId);
+        const pQuery = "INSERT INTO parent (parent_id,father_name,father_no,mother_name,mother_no,password) VALUES (?, ?, ?, ?, ?, ?);"
+        const parent = await sequelize.query(pQuery,{
+            replacements: [newStudentId,studentData.father_name,studentData.father_no,studentData.mother_name,studentData.mother_no,studentData.student_password],
+            type: QueryTypes.INSERT,
+            transaction: t
+        })
+        if(!parent){
+            t.rollback()
+            throw new ApiError(400, "Failed to add parent")
+        }
+        await t.commit()
+        return res
+        .status(200)
+        .json(
+            new ApiResponse(200, {student_id:newStudentId, parent_id:newParentId},"Student successfully added")
+        )
+    } catch (error) {
+        await t.rollback()
+        throw new ApiError(400, "Failed to add student")
+    }
+    
 })
 
 const totalStudentCount = asyncHandler(async(req,res)=>{

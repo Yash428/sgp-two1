@@ -6,7 +6,7 @@ import { getAttendanceByClass, getAttendanceSummaryPDF, studentAttendanceSummary
 import { getTeacherCount } from "../controllers/admin/teacher/teacher.admin.controller.js";
 import { AttendanceEligibilityByClass, AttendanceEligibilityByGender, studentByGender } from "../controllers/admin/student/student.data.admin.controller.js";
 import { studetTimetableByClass } from "../controllers/admin/student/student.timetable.admin.controller.js";
-import { addExamTimeTable } from "../controllers/admin/Exam/Exam.controller.js";
+import { addExamTimeTable, deleteFromTimeTable, getExamTimeTable } from "../controllers/admin/Exam/Exam.controller.js";
 
 
 const router = Router()
@@ -26,4 +26,6 @@ router.route("/student/data/studentAttendanceByGender").post(AttendanceEligibili
 router.route("/student/data/studentAttendanceEligibilityByClass").post(AttendanceEligibilityByClass)
 router.route("/student/timeTableByClass").post(studetTimetableByClass)
 router.route("/exam/add").post(addExamTimeTable)
+router.route("/exam/viewTimeTable").post(getExamTimeTable)
+router.route("/exam/deleteFromTimeTable").post(deleteFromTimeTable)
 export default router

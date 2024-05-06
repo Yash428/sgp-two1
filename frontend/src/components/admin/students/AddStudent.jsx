@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import {Button, Input} from '../../../components'
 import { FaPlus } from "react-icons/fa6";
 import axios from "axios"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { useNavigate } from 'react-router-dom';
+
 export const CurrDate = ()=>{
     const date = new Date()
     //console.log(date);
@@ -37,11 +41,18 @@ function AddStudent() {
         mother_no:""
     }
     const [student,setStudent] = useState(studentData)
+    const navigate = useNavigate()
     const onSubmit = (e)=>{
         e.preventDefault()
         axios.post("http://localhost:8002/api/v1/admin/student/addStudent",student)
         .then(result=>{
-            console.log(result);
+            console.log(result.data.data.student_id);
+            withReactContent(Swal).fire({
+                title: "Student Added successfully",
+                text: `Student Id: ${result.data.data.student_id} \n Parent Id: ${result.data.data.parent_id}`,
+                icon: "success"
+            })
+            navigate("/admin/students")
         })
         .catch(error=>{
             console.log(error);
@@ -165,6 +176,10 @@ function AddStudent() {
                         <div className='flex flex-row w-1/2 p-2 pb-1 pt-1'>
                             <span className='p-2 w-1/4' >Mother No. : </span>
                             <Input className='h-8 w-80' name="mother_no" value={student.mother_no} onChange={update} required/>
+                        </div>
+                        <div className='flex flex-row w-1/2 p-2 pb-1 pt-1'>
+                            <span className='p-2 w-1/4'>Parent Password </span>
+                            <Input className='h-8 w-80' name="guardian_name" value={student.parent_password} onChange={update} required/>
                         </div>
                     </div>
                 </div>

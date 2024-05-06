@@ -121,13 +121,6 @@ export const ADMIN_DASHBOARD_SIDEBAR_LINKS = [
         path: "/admin/students"
     },
     {
-        key: "parents",
-        label: "Parents",
-        title: "Parents",
-        icon: <PiBank className="w-6 h-6"/>,
-        path: "/admin/parents"
-    },
-    {
         key: "exam",
         label: "Exam",
         title: "Exam",
